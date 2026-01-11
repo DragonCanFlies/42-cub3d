@@ -1,0 +1,72 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    .gitignore                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#                                                   +#+#+#+#+#+   +#+            #
+#                                                  #+#    #+#    #+#             #
+#                                                 ###   ########.fr             #
+#                                                                              #
+# **************************************************************************** #
+
+# Compiled executable
+cub3D
+cub3d
+
+# Object files
+*.o
+*.a
+
+# MLX library folder
+mlx/
+mlx-linux/
+minilibx/
+minilibx-linux/
+
+# Tutorial folder
+tutorial/
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux specific
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Editor specific
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+
+# Test files (optional - comment out if you want to track them)
+test
+tests/
+a.out
+
+# Core dumps
+core
+core.*
+vgcore.*
+
+# Valgrind output
+valgrind-out.txt
+*.log
