@@ -93,7 +93,7 @@ static void	check_direction_h(t_ray *ray, t_game *g)
 	{
 		ray->rx = g->player.x;
 		ray->ry = g->player.y;
-		ray->dof = MAP_Y;
+		ray->dof = g->map_y;
 	}
 }
 
@@ -117,7 +117,7 @@ static void	check_direction_v(t_ray *ray, t_game *g)
 	{
 		ray->rx = g->player.x;
 		ray->ry = g->player.y;
-		ray->dof = MAP_X;
+		ray->dof = g->map_x;
 	}
 }
 static void	check_vertical(t_ray *ray, t_game *g)
@@ -126,14 +126,14 @@ static void	check_vertical(t_ray *ray, t_game *g)
 	ray->dis_v = 100000;
 	ray->tan_val = tan(deg_to_rad(ray->ra));
 	check_direction_v(ray, g);
-	while (ray->dof < MAP_X)
+	while (ray->dof < g->map_x)
 	{
 		ray->mx = (int)(ray->rx) >> 6;
 		ray->my = (int)(ray->ry) >> 6;
-		ray->mp = ray->my * MAP_X + ray->mx;
-		if (ray->mp >= 0 && ray->mp < MAP_X * MAP_Y && g->map[ray->mp] == 1)
+		ray->mp = ray->my * g->map_x + ray->mx;
+		if (ray->mp >= 0 && ray->mp < g->map_x * g->map_y && g->map[ray->mp] == 1)
 		{
-			ray->dof = MAP_X;
+			ray->dof = g->map_x;
 			ray->dis_v = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
 			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}
@@ -154,14 +154,14 @@ static void	check_horizontal(t_ray *ray, t_game *g)
 	ray->dis_h = 100000;
 	ray->tan_val = 1.0 / ray->tan_val;
 	check_direction_h(ray, g);
-	while (ray->dof < MAP_Y)
+	while (ray->dof < g->map_y)
 	{
 		ray->mx = (int)(ray->rx) >> 6;
 		ray->my = (int)(ray->ry) >> 6;
-		ray->mp = ray->my * MAP_X + ray->mx;
-		if (ray->mp >= 0 && ray->mp < MAP_X * MAP_Y && g->map[ray->mp] == 1)
+		ray->mp = ray->my * g->map_x + ray->mx;
+		if (ray->mp >= 0 && ray->mp < g->map_x * g->map_y && g->map[ray->mp] == 1)
 		{
-			ray->dof = MAP_Y;
+			ray->dof = g->map_y;
 			ray->dis_h = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
 			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}
@@ -176,30 +176,25 @@ static void	check_horizontal(t_ray *ray, t_game *g)
 	ray->h_hit_y = ray->ry;
 }
 
-void	draw_wall(t_game *g, t_wall *w, float ra, int r)
+void	draw_wall(t_game *g, t_wall *w, float ra, t_ray *ray)
 {
-	int		i;
-	int		x;
-	int		y;
-	int		x1;
-	t_line	line;
-
 	w->ca = (int)fix_angle(g->player.angle - ra);
 	w->dis *= cos(deg_to_rad(w->ca));//fisheye correction
 	w->line_h = (MAP_S * WIN_HEIGHT) / w->dis;
-	if (w->line_h > WIN_HEIGHT)
-		w->line_h = WIN_HEIGHT;
-	w->line_offset = (WIN_HEIGHT / 2) - (w->line_h >> 1);
-	i = 0;
-	x = r * g->px_per_ray;
-	y = w->line_offset;
-	x1 = x + g->px_per_ray - 1;
-	while (i < w->line_h)
-	{
-		line = init_line(x, y + i, x1, y + i);
-		draw_line(&g->img, &line, w->color);
-		i++;
-	}
+	apply_texture(g, ray, w);
+	// if (w->line_h > WIN_HEIGHT)
+	// 	w->line_h = WIN_HEIGHT;
+	// w->line_offset = (WIN_HEIGHT / 2) - (w->line_h >> 1);
+	// i = 0;
+	// x = r * g->px_per_ray;
+	// y = w->line_offset;
+	// x1 = x + g->px_per_ray - 1;
+	// while (i < w->line_h)
+	// {
+	// 	line = init_line(x, y + i, x1, y + i);
+	// 	draw_line(&g->img, &line, w->color);
+	// 	i++;
+	// }
 }
 
 void	ray_caster(t_game *game)
@@ -212,6 +207,7 @@ void	ray_caster(t_game *game)
 	r = 0;
 	while (r < FOV)
 	{
+		ray.r = r;
 		check_vertical(&ray, game);
 		check_horizontal(&ray, game);
 		if (ray.dis_v < ray.dis_h)
@@ -219,16 +215,14 @@ void	ray_caster(t_game *game)
 			wall.x = ray.v_hit_x;
 			wall.y = ray.v_hit_y;
 			wall.dis = ray.dis_v;
-			wall.color = 0x009900;
 		}
 		else
 		{
 			wall.x = ray.h_hit_x;
 			wall.y = ray.h_hit_y;
 			wall.dis = ray.dis_h;
-			wall.color = 0x00CC00;
 		}
-		draw_wall(game, &wall, ray.ra, r);
+		draw_wall(game, &wall, ray.ra, &ray);
 		ray.ra = fix_angle(ray.ra - RAY_ACC);
 		r += RAY_ACC;
 	}

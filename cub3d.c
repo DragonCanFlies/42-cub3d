@@ -1,5 +1,5 @@
 #include "cub3d.h"
-
+#include "input.h"
 
 /*
  * close_window - Clean up and exit
@@ -12,27 +12,6 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-void	init_map(t_game *game)
-{
-	int map_data[] = {
-		1,1,1,1,1,1,1,1,  // Row 0: Top boundary wall
-		1,0,1,0,0,0,0,1,  // Row 1: Interior with vertical wall at x=2
-		1,0,1,0,0,0,0,1,  // Row 2
-		1,0,1,0,0,0,0,1,  // Row 3
-		1,0,0,0,0,0,0,1,  // Row 4: Open space
-		1,0,0,0,0,1,0,1,  // Row 5: Wall at x=5
-		1,0,0,0,0,0,0,1,  // Row 6
-		1,1,1,1,1,1,1,1   // Row 7: Bottom boundary wall
-	};
-	int i;
-
-	i = 0;
-	while (i < MAP_X * MAP_Y)
-	{
-		game->map[i] = map_data[i];
-		i++;
-	}
-}
 /*
  * ============================================================================
  * PLAYER MOVEMENT
@@ -109,12 +88,12 @@ void	update_player(t_game *game)
 	// Convert world coordinates to grid coordinates
 	mx = (int)(new_x) >> 6;  // Divide by 64 using bit shift
 	my = (int)(new_y) >> 6;
-	mp = my * MAP_X + mx;    // Array index
+	mp = my * game->map_x + mx;    // Array index
 	
 	// Only move if:
 	// 1. Position is within map bounds
 	// 2. Destination cell is empty (not a wall)
-	if (mp >= 0 && mp < MAP_X * MAP_Y && game->map[mp] == 0)
+	if (mp >= 0 && mp < game->map_x * game->map_y && game->map[mp] == 0)
 	{
 		game->player.x = new_x;
 		game->player.y = new_y;
@@ -141,15 +120,18 @@ void	update_player(t_game *game)
  */
 int	render(t_game *game)
 {
-	int	i;
+	//int	i;
 
 	// Clear the image buffer (gray background)
-	i = 0;
-	while (i < WIN_WIDTH * WIN_HEIGHT)
-	{
-		((int *)game->img.buffer)[i] = 0x4C4C4C;  // Medium gray
-		i++;
-	}
+	// i = 0;
+	// while (i < WIN_WIDTH * WIN_HEIGHT)
+	// {
+	// 	((int *)game->img.buffer)[i] = 0x4C4C4C;  // Medium gray
+	// 	i++;
+	// }
+	// Draw floor and ceiling
+	draw_rect(&game->img, 0, 0, WIN_WIDTH, WIN_HEIGHT / 2, game->ceiling);
+	draw_rect(&game->img, 0, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT / 2, game->floor);
 
 	// Update game state
 	update_player(game);
@@ -170,12 +152,47 @@ int	render(t_game *game)
  * INPUT HANDLING
  * ============================================================================
  */
+// // Linux
+// #include <X11/keysym.h>
+// /*
+//  * key_press - Called when a key is pressed down
+//  * 
+//  * Sets the corresponding flag to 1 (key is held)
+//  */
+// int	key_press(int keycode, t_game *game)
+// {
+// 	if (keycode == XK_Escape)
+// 		close_window(game);
+// 	if (keycode == XK_z)
+// 		game->keys.w = 1;
+// 	if (keycode == XK_q)
+// 		game->keys.a = 1;
+// 	if (keycode == XK_s)
+// 		game->keys.s = 1;
+// 	if (keycode == XK_d)
+// 		game->keys.d = 1;
+// 	return (0);
+// }
 
-/*
- * key_press - Called when a key is pressed down
- * 
- * Sets the corresponding flag to 1 (key is held)
- */
+// /*
+//  * key_release - Called when a key is released
+//  * 
+//  * Sets the corresponding flag to 0 (key is not held)
+//  */
+// int	key_release(int keycode, t_game *game)
+// {
+// 	if (keycode == XK_z)
+// 		game->keys.w = 0;
+// 	if (keycode == XK_q)
+// 		game->keys.a = 0;
+// 	if (keycode == XK_s)
+// 		game->keys.s = 0;
+// 	if (keycode == XK_d)
+// 		game->keys.d = 0;
+// 	return (0);
+// }
+
+// macOS
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
@@ -210,20 +227,31 @@ int	key_release(int keycode, t_game *game)
 }
 
 
-
-int	main(void)
+// ./cub3D /maps/mini_map.cub
+int	main(int argc, char **argv)
 {
-	t_game	g;
+	t_game		g;
+	t_config	config;
+
+	// TODO clean exit with textures and memory leaks
+	// parse the .cub file
+	parse_config(argc, argv, &config);
 
 	// Initialize MinilibX
 	g.mlx = mlx_init();
 	if (!g.mlx)
+	{
+		clean_config(&config);
 		return (1);
+	}
 	
 	// Create window
 	g.win = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Raycaster MLX");
 	if (!g.win)
+	{
+		clean_config(&config);
 		return (1);
+	}
 
 	// Create image buffer for fast rendering
 	g.img.img = mlx_new_image(g.mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -231,15 +259,23 @@ int	main(void)
 		&g.img.line_len, &g.img.endian);
 
 	// Initialize game g
-	init_map(&g);
 	g.px_per_ray = (WIN_WIDTH * RAY_ACC) / FOV;
 	if ((WIN_WIDTH * RAY_ACC) % FOV)
 		write(10, "warning PIXELS_PER_RAY is not an integer", 40);
-	// Set starting player position and angle
-	g.player.x = 150;      // World coordinates (pixels)
-	g.player.y = 400;
-	g.player.angle = 90;   // Facing right (90 degrees)
+	g.map = config.map_data;
+	g.map_x = config.map_x;
+	g.map_y = config.map_y;
+	g.player.x = config.player_x * MAP_S + MAP_S /2;
+	g.player.y = config.player_y * MAP_S + MAP_S /2;
+	g.player.angle = config.player_angle;
+	load_texture(config.north_path, &g.north, &g);
+	load_texture(config.south_path, &g.south, &g);
+	load_texture(config.east_path, &g.east, &g);
+	load_texture(config.west_path, &g.west, &g);
+	g.floor = rgb_to_int(config.floor);
+	g.ceiling = rgb_to_int(config.ceiling);
 	
+
 	// Calculate initial direction vector
 	g.player.dx = cos(deg_to_rad(g.player.angle));
 	g.player.dy = -sin(deg_to_rad(g.player.angle));
@@ -258,6 +294,7 @@ int	main(void)
 
 	// Start the event loop
 	mlx_loop(g.mlx);
-
+	// TODO check destroy_window()
+	clean_config(&config);
 	return (0);
 }
