@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:46:34 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/12 12:43:28 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/12 21:03:56 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 	int		color;
 	t_line	line;
 
-	ray_width = WIN_WIDTH / 60;
+	ray_width = (WIN_WIDTH * RAY_ACC) / FOV;
 	i = 0;
 	while (i < wall->line_h)
 	{
