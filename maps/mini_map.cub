@@ -1,0 +1,13 @@
+NO ./textures/white_wood_border64.xpm
+SO ./textures/gold_wall64.xpm
+WE ./textures/gold_brick64.xpm
+EA ./textures/black_wall64.xpm
+
+F 255,200,221
+C 205,180,219
+
+11111111111111111111
+10010000000000011001
+10000000001000000001
+10000E00000000000001
+11111111111111111111
