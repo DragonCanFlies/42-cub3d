@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_01.c                                         :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:31:17 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/13 13:43:31 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/14 20:01:02 by loasaad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, ft_strlen(s));
 }
 
-size_t	ft_strlen(const char *s)
-{
-	const char	*begin;
-
-	begin = s;
-	while (*s)
-		s++;
-	return (s - begin);
-}
 
 int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
 {
@@ -56,5 +47,22 @@ int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
+
+// static void			*ft_memcpy(void *dest, const void *src, size_t n)
+// {
+// 	unsigned char		*dest_byte;
+// 	const unsigned char	*src_byte;
+
+// 	if (!dest || !src)
+// 		return (dest);
+// 	dest_byte = dest;
+// 	src_byte = src;
+// 	while (n > 0)
+// 	{
+// 		*dest_byte++ = *src_byte++;
+// 		n--;
+// 	}
+// 	return (dest);
+// }
 
 

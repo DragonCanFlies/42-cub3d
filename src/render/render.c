@@ -78,16 +78,27 @@ t_line	init_line(int x1, int y1, int x2, int y2)
 int	render(t_game *game)
 {
 	int	i;
+	int	half;
 
+	half = WIN_WIDTH * (WIN_HEIGHT / 2);
+	// Draw ceiling
 	i = 0;
+	while (i < half)
+	{
+		((int *)game->img.buffer)[i] = game->tex.ceiling;
+		i++;
+	}
+	// Draw floor
 	while (i < WIN_WIDTH * WIN_HEIGHT)
 	{
-		((int *)game->img.buffer)[i] = 0x4C4C4C;  // Medium gray
+		((int *)game->img.buffer)[i] = game->tex.floor;
 		i++;
 	}
 	update_player(game);
 	//draw_map_2d(game);      // 2D top-down map (left side)
+	printf("About to call ray_caster\n");  // DEBUG
 	ray_caster(game);     // 3D raycasted view (right side)
+	printf("ray_caster completed\n");  // DEBUG
 	//draw_player_2d(game);   // Player indicator on 2D map
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	return (0);

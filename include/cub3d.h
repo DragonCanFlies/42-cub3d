@@ -1,7 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "mlx/mlx.h"
+# include "mlx.h"
 # include "get_next_line.h"
 # include <math.h>
 # include <stdlib.h>
@@ -79,6 +79,32 @@ typedef struct s_map
 	int		*map_data; // map_data[map_y * map_x + x]
 }				t_map;
 
+typedef struct s_line
+{
+	int	x1;
+	int	x2;
+	int	y1;
+	int	y2;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+}		t_line;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*buffer;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		width;
+	int		height;
+	// float	inv_map_scale;
+}			t_img;
+
+
 typedef struct s_ray
 {
 	int		r;			//Ray count
@@ -110,13 +136,13 @@ typedef enum	e_wall_dir
 
 typedef struct s_wall
 {
-	int	line_h;     // Wall height
-	int	line_offset;   // Wall offset
-	int	ca;         // Corrected angle
-	int	color;      // Wall color
-	float	x;
-	float	y;
-	float	dis;
+	int			line_h;     // Wall height
+	int			line_offset;   // Wall offset
+	int			ca;         // Corrected angle
+	int			color;      // Wall color. delete later?
+	float		x;
+	float		y;
+	float		dis;
 	int			text_h;
 	t_wall_dir	wall_dir;
 	t_img		text;
@@ -124,35 +150,13 @@ typedef struct s_wall
 	float		ty;
 	float		ty_step;
 	float		ty_off;
+	// float		texture_scale; 
 }		t_wall;
 
 
 // *img is for mlx
 // bpp = bits per pixel, usually 32
 
-typedef struct s_line
-{
-	int	x1;
-	int	x2;
-	int	y1;
-	int	y2;
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-}		t_line;
-
-typedef struct s_img
-{
-	void	*img;
-	char	*buffer;
-	int		bpp;
-	int		line_len;
-	int		endian;
-	int		width;
-	int		height;
-}			t_img;
 
 typedef struct s_player
 {
@@ -198,10 +202,8 @@ typedef struct s_game
 }				t_game;
 
 //libft
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	ft_putstr_fd(char *s, int fd);
-size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
 //events
@@ -226,6 +228,7 @@ void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
 void	draw_line(t_img *img, t_line *l, int color);
 t_line	init_line(int x1, int y1, int x2, int y2);
 int	render(t_game *game);
+void	apply_texture(t_game *g, t_ray *ray, t_wall* wall);
 
 //player
 void	update_player(t_game *game);

@@ -42,8 +42,10 @@ void	init_texture(t_game *g)
 		ft_putstr_fd("Error\nError loading a texture\n", 2);
 		// probably img of game must be freed too
 		destroy_images(g);
+		mlx_destroy_image(g->mlx, g->img.img);
 		mlx_destroy_window(g->mlx, g->win);
-		mlx_destroy_display(g->mlx);
+		//only for linux
+		//mlx_destroy_display(g->mlx);
 		free(g->mlx);
 		exit (1);
 	}

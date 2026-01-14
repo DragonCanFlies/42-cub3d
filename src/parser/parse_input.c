@@ -59,22 +59,20 @@ void	parse_input(int argc, char **argv, t_game *g)
 {
 	int				fd;
 	t_map_flags		map_flags;
-	t_map			map;
 	char			*line;
 
-	g->map = map;
+	ft_bzero(&g->map, sizeof(t_map));
 	ft_bzero(&map_flags, sizeof(map_flags));
-	ft_bzero(&map, sizeof(map));
 	if (argc != 2)
 		handle_error(ARG_NB_ERR);
 	check_filename(argv[1]);
 	fd = open_file(argv[1]);
-	line = parse_textures(&map, &map_flags, fd);
-	parse_map(&map, fd, line);
-	normalize_map(&map);
+	line = parse_textures(&g->map, &map_flags, fd);
+	parse_map(&g->map, fd, line);
+	normalize_map(&g->map);
 	parse_player_data(g);
 	// TODO check map is enclosed by wall
-	if (!create_int_map_array(&map))
-		clean_exit(MALLOC, &map, line, fd);
+	if (!create_int_map_array(&g->map))
+		clean_exit(MALLOC, &g->map, line, fd);
 	// TODO tests and memory leaks
 }

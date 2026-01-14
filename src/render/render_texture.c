@@ -53,7 +53,7 @@ static void	compute_ty(t_wall* wall)
 	wall->ty_step = (float)wall->text_h / (float)wall->line_h;
 	if (wall->line_h > WIN_HEIGHT)
 	{
-		wall->ty_off = (wall->line_h - WIN_HEIGHT) / 2.0;
+		wall->ty_off = (wall->line_h - WIN_HEIGHT) >> 1;
 		wall->line_h = WIN_HEIGHT;
 	}
 	wall->ty = wall->ty_step * wall->ty_off;
@@ -84,7 +84,7 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 	while (i < wall->line_h)
 	{
 		// TODO change with size of texture - 1
-		color = *(unsigned int *)(wall->text.buffer + ((int)wall->ty & 63) * wall->text.line_len + ((int)wall->tx & 63) * (wall->text.bpp / 8));
+		color = *(unsigned int *)(wall->text.buffer + ((int)wall->ty & 63) * wall->text.line_len + ((int)wall->tx & 63) * (wall->text.bpp >> 3));
 		line = init_line(ray->r * ray_width, wall->line_offset + i, ray->r * ray_width + ray_width - 1, wall->line_offset + i);
 		draw_line(&g->img, &line, color);
 		wall->ty += wall->ty_step;

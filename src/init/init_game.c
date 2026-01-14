@@ -4,10 +4,10 @@ void	init_game(t_game *g)
 {
 	g->mlx = mlx_init();
 	if (!g->mlx)		//change the func
-		perror_exit (1);
+		perror_exit ("MLX init failed");
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT, "Raycaster MLX");
 	if (!g->win)		//change the func
-		perror_exit (1);
+		perror_exit ("Window creation failed");;
 	g->img.img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->img.buffer = mlx_get_data_addr(g->img.img, &g->img.bpp,
 		&g->img.line_len, &g->img.endian);
