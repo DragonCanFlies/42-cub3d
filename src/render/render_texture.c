@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   texture.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 17:46:34 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/12 21:03:56 by latabagl         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
 static void	get_wall_orientation(t_game *g, t_ray *ray, t_wall* wall)
@@ -17,24 +5,24 @@ static void	get_wall_orientation(t_game *g, t_ray *ray, t_wall* wall)
 	if (ray->dis_v < ray->dis_h)
 	{
 		// vertical wall facing west
-		wall->text = g->west;
+		wall->text = g->tex.west;
 		wall->wall_dir = W;
 		if (cos(deg_to_rad(ray->ra)) < -0.001)
 		{
 			// vertical wall facing east
-			wall->text = g->east;
+			wall->text = g->tex.east;
 			wall->wall_dir = E;
 		}
 	}
 	else
 	{
 		// horizontal wall facing south
-		wall->text = g->south;
+		wall->text = g->tex.south;
 		wall->wall_dir = S;
 		if (sin(deg_to_rad(ray->ra)) < -0.001)
 		{
 			// horizontal wall facing north
-			wall->text = g->north;
+			wall->text = g->tex.north;
 			wall->wall_dir = N;
 		}
 	}

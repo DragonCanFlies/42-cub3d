@@ -1,4 +1,3 @@
-
 #include "cub3d.h"
 
 // return 1 if filename ends with .cub

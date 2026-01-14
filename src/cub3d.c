@@ -12,6 +12,6 @@ int	main(int argc, char **argv)
 	init_game(&g);
 	setup_hooks(&g);
 	mlx_loop(g.mlx);
-
+	clean_map(&g.map);
 	return (0);
 }

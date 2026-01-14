@@ -1,7 +1,7 @@
 #include "cub3d.h"
 
 
-static int	pos_is_valid(t_game *game, float new_x, float new_y)
+static int	pos_is_valid(t_game *g, float new_x, float new_y)
 {
 	int		mx;
 	int		my;
@@ -9,8 +9,8 @@ static int	pos_is_valid(t_game *game, float new_x, float new_y)
 
 	mx = (int)(new_x) >> 6;
 	my = (int)(new_y) >> 6;
-	mp = my * MAP_X + mx;
-	return (mp >= 0 && mp < MAP_X * MAP_Y && game->map[mp] == 0);
+	mp = my * g->map.x + mx;
+	return (mp >= 0 && mp < g->map.x * g->map.y && g->map.map_data[mp] == 0);
 }
 
 static void	move_player(t_game *game, float *new_x, float *new_y)

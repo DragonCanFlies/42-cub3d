@@ -6,7 +6,7 @@
 /*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:58:00 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/13 16:29:20 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/14 15:28:00 by loasaad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	handle_error(char *msg)
 	exit(1);
 }
 
-void	clean_exit(char *msg, t_map *config, char *line, int fd)
+void	clean_exit(char *msg, t_map *map, char *line, int fd)
 {
 	print_error(msg);
-	clean_config(config);
+	clean_map(map);
 	if (line)
 		free(line);
 	if (fd != -1)
@@ -35,12 +35,18 @@ void	clean_exit(char *msg, t_map *config, char *line, int fd)
 	exit(1);
 }
 
-void	clean_exit_no_msg(t_map *config, char *line, int fd)
+void	clean_exit_no_msg(t_map *map, char *line, int fd)
 {
-	clean_config(config);
+	clean_map(map);
 	if (line)
 		free(line);
 	if (fd != -1)
 		close(fd);
 	exit(1);
+}
+
+void	perror_exit(const char *message)
+{
+	printf("%s\n", message);
+	exit(EXIT_FAILURE);
 }

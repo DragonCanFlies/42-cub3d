@@ -1,5 +1,6 @@
 #include "cub3d.h"
 
+
 static void	check_direction_h(t_ray *ray, t_game *g)
 {
 	if (sin(deg_to_rad(ray->ra)) > 0.001)//looking up
@@ -20,7 +21,7 @@ static void	check_direction_h(t_ray *ray, t_game *g)
 	{
 		ray->rx = g->player.x;
 		ray->ry = g->player.y;
-		ray->dof = MAP_Y;
+		ray->dof = g->map.y;
 	}
 }
 
@@ -44,7 +45,7 @@ static void	check_direction_v(t_ray *ray, t_game *g)
 	{
 		ray->rx = g->player.x;
 		ray->ry = g->player.y;
-		ray->dof = MAP_X;
+		ray->dof = g->map.x;
 	}
 }
 void	check_vertical(t_ray *ray, t_game *g)
@@ -53,14 +54,15 @@ void	check_vertical(t_ray *ray, t_game *g)
 	ray->dis_v = 100000;
 	ray->tan_val = tan(deg_to_rad(ray->ra));
 	check_direction_v(ray, g);
-	while (ray->dof < MAP_X)
+	while (ray->dof < g->map.x)
 	{
 		ray->mx = (int)(ray->rx) >> 6;
 		ray->my = (int)(ray->ry) >> 6;
-		ray->mp = ray->my * MAP_X + ray->mx;
-		if (ray->mp >= 0 && ray->mp < MAP_X * MAP_Y && g->map[ray->mp] == 1)
+		ray->mp = ray->my * g->map.x + ray->mx;
+		if (ray->mp >= 0 && ray->mp < g->map.x * g->map.y
+			&& g->map.map_data[ray->mp] == 1)
 		{
-			ray->dof = MAP_X;
+			ray->dof = g->map.x;
 			ray->dis_v = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
 			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}
@@ -81,14 +83,15 @@ void	check_horizontal(t_ray *ray, t_game *g)
 	ray->dis_h = 100000;
 	ray->tan_val = 1.0 / ray->tan_val;
 	check_direction_h(ray, g);
-	while (ray->dof < MAP_Y)
+	while (ray->dof < g->map.y)
 	{
 		ray->mx = (int)(ray->rx) >> 6;
 		ray->my = (int)(ray->ry) >> 6;
-		ray->mp = ray->my * MAP_X + ray->mx;
-		if (ray->mp >= 0 && ray->mp < MAP_X * MAP_Y && g->map[ray->mp] == 1)
+		ray->mp = ray->my * g->map.x + ray->mx;
+		if (ray->mp >= 0 && ray->mp < g->map.x * g->map.y
+			&& g->map.map_data[ray->mp] == 1)
 		{
-			ray->dof = MAP_Y;
+			ray->dof = g->map.y;
 			ray->dis_h = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
 			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}

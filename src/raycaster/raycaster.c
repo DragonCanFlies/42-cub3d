@@ -48,17 +48,16 @@ void	ray_caster(t_game *game)
 {
 	t_ray	ray;
 	t_wall	wall;
-	int		r;
 
 	ray.ra = fix_angle(game->player.angle + (FOV / 2));
-	r = 0;
-	while (r < FOV)
+	ray.r = 0;
+	while (ray.r < FOV)
 	{
 		check_vertical(&ray, game);
 		check_horizontal(&ray, game);
 		compare_distance(&ray, &wall);
-		draw_wall(game, &wall, ray.ra, r);
+		draw_wall(game, &wall, ray.ra, ray.r);
 		ray.ra = fix_angle(ray.ra - RAY_ACC);
-		r += RAY_ACC;
+		ray.r += RAY_ACC;
 	}
 }

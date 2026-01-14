@@ -12,8 +12,6 @@
 
 # define WIN_WIDTH	1024
 # define WIN_HEIGHT	510
-# define MAP_X		8
-# define MAP_Y		8
 # define MAP_S		64
 # define FOV		60
 # define RAY_ACC	1
@@ -83,6 +81,7 @@ typedef struct s_map
 
 typedef struct s_ray
 {
+	int		r;			//Ray count
 	float	ra;         // Ray angle
 	float	rx;         // Ray X position
 	float	ry;         // Ray Y position
@@ -101,6 +100,14 @@ typedef struct s_ray
 	int		mp;         // Map position (array index)
 }			t_ray;
 
+typedef enum	e_wall_dir
+{
+	N,
+	S,
+	E,
+	W
+}				t_wall_dir;
+
 typedef struct s_wall
 {
 	int	line_h;     // Wall height
@@ -110,6 +117,13 @@ typedef struct s_wall
 	float	x;
 	float	y;
 	float	dis;
+	int			text_h;
+	t_wall_dir	wall_dir;
+	t_img		text;
+	float		tx; // text coordinates
+	float		ty;
+	float		ty_step;
+	float		ty_off;
 }		t_wall;
 
 
@@ -136,6 +150,8 @@ typedef struct s_img
 	int		bpp;
 	int		line_len;
 	int		endian;
+	int		width;
+	int		height;
 }			t_img;
 
 typedef struct s_player
@@ -186,20 +202,23 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *s);
-int	ft_strncmp(const char *s1, const char *s2, unsigned int n);
-
-
+int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
 //events
 	//key_hooks
 int	close_window(t_game *game);
 int	key_press(int keycode, t_game *game);
 int	key_release(int keycode, t_game *game);
+
 	//setup_hooks
 void	setup_hooks(t_game *g);
 
 //init
-int	init_game(t_game *g);
+void	init_game(t_game *g);
+int		load_texture(char *path, t_img *texture, t_game *g);
+int		rgb_to_int(uint8_t *colors_input);
+void	destroy_images(t_game *g);
+void	init_texture(t_game *g);
 
 //render
 void	put_pixel(t_img *img, int x, int y, int color);
@@ -216,52 +235,33 @@ void	check_vertical(t_ray *ray, t_game *g);
 void	check_horizontal(t_ray *ray, t_game *g);
 void	ray_caster(t_game *game);
 
+//parse
+void	normalize_map(t_map *map);
+void	parse_input(int argc, char **argv, t_game *g);
+void	parse_map(t_map *map, int fd, char *line);
+void	parse_player_data(t_game *g);
+char	*parse_textures(t_map *map, t_map_flags *map_flags, int fd);
+int		is_empty_line(char *line);
+char	*skip_empty_lines(t_map *config, int fd, char *line);
+int		has_valid_characters(char *line, int *player_found);
+void	skip_space_or_tab(char *line, int *i);
+void	skip_token(char *line, int *i);
+int		handle_map_flag(int *map_flag, int flag);
+int		get_map_flag(char *line, int i, int j, t_map_flags *flags);
+int		textures_are_extracted(t_map_flags *flags);
 
-//utils_math
+//utils
+void	clean_map(t_map *map);
+int		extract_color(char *str, int *i);
+int		handle_rgb(uint8_t	colors[3], char *str);
+void	print_error(char *msg);
+void	handle_error(char *msg);
+void	clean_exit(char *msg, t_map *map, char *line, int fd);
+void	clean_exit_no_msg(t_map *map, char *line, int fd);
+void	perror_exit(const char *message);
+	//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
-
-//utils_exit
-void	perror_exit(const char *message);
-
-
-
-
-// // input validation
-// void	parse_config(int argc, char **argv, t_map *config);
-// // textures and colors
-// char	*parse_textures(t_map *config,
-// 			t_map_flags *config_flags, int fd);
-// // textures and colors helpers
-// void	skip_space_or_tab(char *line, int *i);
-// void	skip_token(char *line, int *i);
-// int		handle_config_flag(int *config_flag, int flag);
-// int		get_map_flag(char *line, int i, int j, t_map_flags *config_flags);
-// int		all_elements_except_map(t_map_flags *config_flags);
-// int		extract_color(char *str, int *i);
-// int		handle_rgb(uint8_t	colors[3], char *str);
-// // parse map
-// void	parse_map(t_map *config, int fd, char *line);
-// // parse map helpers
-// int		is_empty_line(char *line);
-// char	*skip_empty_lines(t_map *config, int fd, char *line);
-// int		has_valid_characters(char *line, int *player_found);
-// // normalize map
-// void	normalize_map(t_map *config);
-// // player
-// void	get_player_data(t_map *config);
-// // errors
-// void	handle_error(char *msg);
-// void	print_error(char *msg);
-// void	clean_exit(char *msg, t_map *config, char *line, int fd);
-// void	clean_exit_no_msg(t_map *config, char *line, int fd);
-// // cleanup
-// void	clean_config(t_map *t_map);
-
-// // debug
-// void	print_map(t_map *config);
-
-
 
 
 #endif
