@@ -40,9 +40,10 @@
 # define ONLY_ONE_PLAYER "There are several player starting positions.\n"
 # define NO_PLAYER "No player starting position.\n"
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
-	ceiling and floor colors and then the map.\n"
+ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not an integer"
+# define ERR_PPR "Warning PIXELS_PER_RAY is not an integer\n"
+# define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
 
 typedef enum e_id
 {
@@ -251,6 +252,7 @@ void	skip_token(char *line, int *i);
 int		handle_map_flag(int *map_flag, int flag);
 int		get_map_flag(char *line, int i, int j, t_map_flags *flags);
 int		textures_are_extracted(t_map_flags *flags);
+void	ensure_closed_map(t_game *g);
 
 //utils
 void	clean_map(t_map *map);
