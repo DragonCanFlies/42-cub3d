@@ -101,7 +101,7 @@ typedef struct s_img
 	int		endian;
 	int		width;
 	int		height;
-	// float	inv_map_scale;
+	float	map_scale;
 }			t_img;
 
 
@@ -143,7 +143,6 @@ typedef struct s_wall
 	float		x;
 	float		y;
 	float		dis;
-	int			text_h;
 	t_wall_dir	wall_dir;
 	t_img		text;
 	float		tx; // text coordinates
@@ -265,6 +264,5 @@ void	perror_exit(const char *message);
 	//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
-
 
 #endif

@@ -7,6 +7,7 @@ int	load_texture(char *path, t_img *texture, t_game *g)
 	if (!texture->img)
 		return (0);
 	texture->buffer = mlx_get_data_addr(texture->img, &(texture->bpp), &(texture->line_len), &(texture->endian));
+	texture->map_scale = (float)texture->height / (float)MAP_S;
 	return (1);
 }
 
@@ -19,7 +20,7 @@ int	rgb_to_int(uint8_t *colors_input)
 	return (color);
 }
 
-void	destroy_images(t_game *g)
+void	destroy_textures(t_game *g)
 {
 	if (g->tex.north.img)
 		mlx_destroy_image(g->mlx, g->tex.north.img);
@@ -31,6 +32,17 @@ void	destroy_images(t_game *g)
 		mlx_destroy_image(g->mlx, g->tex.west.img);
 }
 
+void	clean_exit_game(t_game *g)
+{
+	mlx_destroy_image(g->mlx, g->img.img);
+	mlx_destroy_window(g->mlx, g->win);
+	//mlx_destroy_display(g->mlx); //only for linux
+	free(g->mlx);
+	destroy_textures(g);
+	clean_map(&g->map);
+	exit (1);
+}
+
 void	init_texture(t_game *g)
 {
 	if (!load_texture(g->map.north_path, &g->tex.north, g)
@@ -38,16 +50,8 @@ void	init_texture(t_game *g)
 	|| !load_texture(g->map.east_path, &g->tex.east, g)
 	|| !load_texture(g->map.west_path, &g->tex.west, g))
 	{
-		// exit cleanly
 		ft_putstr_fd("Error\nError loading a texture\n", 2);
-		// probably img of game must be freed too
-		destroy_images(g);
-		mlx_destroy_image(g->mlx, g->img.img);
-		mlx_destroy_window(g->mlx, g->win);
-		//only for linux
-		//mlx_destroy_display(g->mlx);
-		free(g->mlx);
-		exit (1);
+		clean_exit_game(g);
 	}
 	g->tex.floor = rgb_to_int(g->map.floor);
 	g->tex.ceiling = rgb_to_int(g->map.ceiling);
