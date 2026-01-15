@@ -96,9 +96,7 @@ int	render(t_game *game)
 	}
 	update_player(game);
 	//draw_map_2d(game);      // 2D top-down map (left side)
-	printf("About to call ray_caster\n");  // DEBUG
 	ray_caster(game);     // 3D raycasted view (right side)
-	printf("ray_caster completed\n");  // DEBUG
 	//draw_player_2d(game);   // Player indicator on 2D map
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	return (0);

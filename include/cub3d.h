@@ -10,13 +10,13 @@
 # include <fcntl.h>
 # include <stdint.h> // uint8_t
 
-# define WIN_WIDTH	1024
-# define WIN_HEIGHT	510
+# define WIN_WIDTH	1280
+# define WIN_HEIGHT	720
 # define MAP_S		64
 # define FOV		60
-# define RAY_ACC	1
+# define RAY_ACC	0.1
 # define MOVE_SPEED	3
-# define ROT_SPEED	3
+# define ROT_SPEED	2
 
 # define KEY_W		13
 # define KEY_A		0
@@ -42,7 +42,7 @@
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
 	ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not an integer"
+# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC"
 
 typedef enum e_id
 {
@@ -107,7 +107,7 @@ typedef struct s_img
 
 typedef struct s_ray
 {
-	int		r;			//Ray count
+	int		index;		// RAY index
 	float	ra;         // Ray angle
 	float	rx;         // Ray X position
 	float	ry;         // Ray Y position
@@ -198,7 +198,7 @@ typedef struct s_game
 	t_map		map;
 	t_tex		tex;
 	//int			map[MAP_X * MAP_Y];
-	int			px_per_ray;
+	float			px_per_ray;
 }				t_game;
 
 //libft

@@ -12,8 +12,8 @@ void	init_game(t_game *g)
 	g->img.buffer = mlx_get_data_addr(g->img.img, &g->img.bpp,
 		&g->img.line_len, &g->img.endian);
 	g->px_per_ray = (WIN_WIDTH * RAY_ACC) / FOV;
-	if ((WIN_WIDTH * RAY_ACC) % FOV)
-		write(10, ERR_PPR, 40);
+	if (fmod((WIN_WIDTH * RAY_ACC), FOV) != 0)
+		write(2, ERR_PPR, 75);
 	ft_bzero(&g->keys, sizeof(g->keys));
 	init_texture(g);
 }

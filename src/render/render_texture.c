@@ -85,7 +85,7 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 	{
 		// TODO change with size of texture - 1
 		color = *(unsigned int *)(wall->text.buffer + ((int)wall->ty & 63) * wall->text.line_len + ((int)wall->tx & 63) * (wall->text.bpp >> 3));
-		line = init_line(ray->r * ray_width, wall->line_offset + i, ray->r * ray_width + ray_width - 1, wall->line_offset + i);
+		line = init_line(ray->index * ray_width, wall->line_offset + i, ray->index * ray_width + ray_width - 1, wall->line_offset + i);
 		draw_line(&g->img, &line, color);
 		wall->ty += wall->ty_step;
 		i++;
@@ -110,3 +110,4 @@ void	apply_texture(t_game *g, t_ray *ray, t_wall* wall)
 	check_boundaries(wall);
 	draw_wall(g, ray, wall);
 }
+

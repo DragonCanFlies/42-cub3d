@@ -14,7 +14,10 @@ int	main(int argc, char **argv)
 	// printf("DEBUG: Init complete, setting up hooks...\n");
 	setup_hooks(&g);
 	// printf("DEBUG: Starting MLX loop...\n");
+	
 	mlx_loop(g.mlx);
 	clean_map(&g.map);
 	return (0);
 }
+
+
