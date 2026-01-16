@@ -43,7 +43,7 @@
 	ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
 # define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC"
-
+# define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
 typedef enum e_id
 {
 	NO,
@@ -101,6 +101,7 @@ typedef struct s_img
 	int		endian;
 	int		width;
 	int		height;
+	float	map_scale;
 	// float	inv_map_scale;
 }			t_img;
 
@@ -143,7 +144,6 @@ typedef struct s_wall
 	float		x;
 	float		y;
 	float		dis;
-	int			text_h;
 	t_wall_dir	wall_dir;
 	t_img		text;
 	float		tx; // text coordinates
@@ -252,6 +252,7 @@ void	skip_token(char *line, int *i);
 int		handle_map_flag(int *map_flag, int flag);
 int		get_map_flag(char *line, int i, int j, t_map_flags *flags);
 int		textures_are_extracted(t_map_flags *flags);
+void	ensure_closed_map(t_game *g);
 
 //utils
 void	clean_map(t_map *map);

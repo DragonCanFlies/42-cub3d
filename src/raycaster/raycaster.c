@@ -16,9 +16,9 @@ static void	draw_wall(t_game *g, t_wall *w, t_ray *r)
 	// 	w->line_h = WIN_HEIGHT;
 	// w->line_offset = (WIN_HEIGHT >> 1) - (w->line_h >> 1);
 	// i = 0;
-	// x = (int)index * g->px_per_ray;
+	// x = (int)r->index * g->px_per_ray;
 	// y = w->line_offset;
-	// x1 = (int)((index + 1) * g->px_per_ray) - 1;
+	// x1 = (int)((r->index + 1) * g->px_per_ray) - 1;
 	// while (i < w->line_h)
 	// {
 	// 	line = init_line(x, y + i, x1, y + i);
