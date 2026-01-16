@@ -56,7 +56,7 @@ static void	compute_ty(t_wall* wall)
 		wall->line_h = WIN_HEIGHT;
 	}
 	wall->ty = wall->ty_step * wall->ty_off;
-	wall->line_offset = (WIN_HEIGHT >> 2) - (wall->line_h >> 1);
+	wall->line_offset = (WIN_HEIGHT >> 1) - (wall->line_h >> 1);
 }
 
 static void	check_boundaries(t_wall* wall)
@@ -70,6 +70,7 @@ static void	check_boundaries(t_wall* wall)
 	if (wall->ty >= wall->text.height)
 		wall->ty = wall->text.height - 1;
 }
+
 
 static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 {
