@@ -17,6 +17,7 @@
 # define RAY_ACC	0.1
 # define MOVE_SPEED	3
 # define ROT_SPEED	2
+#define PLAYER_RADIUS 20  // PLAYER_RADIUS must be < than MOVE_SPEED
 
 # define KEY_W		13
 # define KEY_A		0
@@ -42,8 +43,9 @@
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
 	ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC"
+# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC\n"
 # define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
+
 typedef enum e_id
 {
 	NO,
@@ -232,6 +234,7 @@ void	apply_texture(t_game *g, t_ray *ray, t_wall* wall);
 
 //player
 void	update_player(t_game *game);
+void	rotate_player(t_game *game, float rotation);
 
 //raycaster
 void	check_vertical(t_ray *ray, t_game *g);

@@ -1,16 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_movement.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/16 22:21:06 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/16 22:43:51 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
+// return 1 if point is inside a wall/outside the map
+static int	is_inside_wall(t_game *g, int x, int y)
+{
+	int	mp;
 
+	mp = (y >> 6) * g->map.x + (x >> 6);
+	if (mp < 0 || mp >= g->map.x * g->map.y || g->map.map_data[mp] == 1)
+		return (1);
+	return (0);
+}
+
+/* collision zone around player is a square
+* check top left, top right, center, bottom left and bottom right 
+* of the square */
 static int	pos_is_valid(t_game *g, float new_x, float new_y)
 {
-	int		mx;
-	int		my;
-	int		mp;
+	int	r;
 
-	mx = (int)(new_x) >> 6;
-	my = (int)(new_y) >> 6;
-	mp = my * g->map.x + mx;
-	return (mp >= 0 && mp < g->map.x * g->map.y && g->map.map_data[mp] == 0);
+	r = PLAYER_RADIUS;
+	if (is_inside_wall(g, (int)(new_x - r), (int)(new_y - r)))
+		return (0);
+	if (is_inside_wall(g, (int)(new_x + r), (int)(new_y - r)))
+		return (0);
+	if (is_inside_wall(g, (int)(new_x), (int)(new_y)))
+		return (0);
+	if (is_inside_wall(g, (int)(new_x - r), (int)(new_y + r)))
+		return (0);
+	if (is_inside_wall(g, (int)(new_x + r), (int)(new_y + r)))
+		return (0);
+	return (1);
 }
 
 static void	move_player(t_game *game, float *new_x, float *new_y)
@@ -37,7 +68,7 @@ static void	move_player(t_game *game, float *new_x, float *new_y)
 	}
 }
 
-static void	rotate_player(t_game *game, float rotation)
+void	rotate_player(t_game *game, float rotation)
 {
 	game->player.angle += rotation;
 	game->player.angle = fix_angle(game->player.angle);
@@ -57,9 +88,8 @@ void	update_player(t_game *game)
 	if (game->keys.right)
 		rotate_player(game, -ROT_SPEED);
 	move_player(game, &new_x, &new_y);
-	if (pos_is_valid(game, new_x, new_y))
-	{
+	if (pos_is_valid(game, new_x, game->player.y))
 		game->player.x = new_x;
+	if (pos_is_valid(game, game->player.x, new_y))
 		game->player.y = new_y;
-	}
 }
