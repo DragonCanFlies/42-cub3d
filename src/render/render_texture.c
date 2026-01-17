@@ -1,34 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_texture.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/17 20:30:43 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/17 21:48:49 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-static void	get_wall_orientation(t_game *g, t_ray *ray, t_wall* wall)
-{
-	if (ray->dis_v < ray->dis_h)
-	{
-		// vertical wall facing west
-		wall->text = g->tex.west;
-		wall->wall_dir = W;
-		if (cos(deg_to_rad(ray->ra)) < -0.001)
-		{
-			// vertical wall facing east
-			wall->text = g->tex.east;
-			wall->wall_dir = E;
-		}
-	}
-	else
-	{
-		// horizontal wall facing south
-		wall->text = g->tex.south;
-		wall->wall_dir = S;
-		if (sin(deg_to_rad(ray->ra)) < -0.001)
-		{
-			// horizontal wall facing north
-			wall->text = g->tex.north;
-			wall->wall_dir = N;
-		}
-	}
-}
-
-static void	compute_tx(t_ray *ray, t_wall* wall)
+static void	compute_tx(t_ray *ray, t_wall *wall)
 {
 	if (wall->wall_dir == W)
 		wall->tx = ((int) ray->v_hit_y & (MAP_S - 1)) * wall->text.map_scale;
@@ -46,7 +30,7 @@ static void	compute_tx(t_ray *ray, t_wall* wall)
 	}
 }
 
-static void	compute_ty(t_wall* wall)
+static void	compute_ty(t_wall *wall)
 {
 	wall->ty_off = 0;
 	wall->ty_step = (float)wall->text.height / (float)wall->line_h;
@@ -59,20 +43,25 @@ static void	compute_ty(t_wall* wall)
 	wall->line_offset = (WIN_HEIGHT >> 1) - (wall->line_h >> 1);
 }
 
-static void	check_boundaries(t_wall* wall)
+static void	apply_shading(t_wall *wall, int *color, float shade)
 {
-	if (wall->tx < 0)
-		wall->tx = 0;
-	if (wall->tx >= wall->text.height)
-		wall->tx = wall->text.height - 1;
-	if (wall->ty < 0)
-		wall->ty = 0;
-	if (wall->ty >= wall->text.height)
-		wall->ty = wall->text.height - 1;
+	int	red;
+	int	green;
+	int	blue;
+
+	if (wall->wall_dir == E || wall->wall_dir == W)
+	{
+		red = (*color >> 16) & 0xFF;
+		green = (*color >> 8) & 0xFF;
+		blue = (*color) & 0xFF;
+		red = (int)(red * shade);
+		green = (int)(green * shade);
+		blue = (int)(blue * shade);
+		*color = (red << 16) | (green << 8) | blue;
+	}
 }
 
-
-static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
+static void	draw_wall(t_game *g, t_ray *ray, t_wall *wall)
 {
 	int		i;
 	int		x;
@@ -87,9 +76,12 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 	i = 0;
 	while (i < wall->line_h)
 	{
-		color = *(unsigned int *)(wall->text.buffer 
-			+ ((int)wall->ty & (wall->text.height - 1)) * wall->text.line_len 
-			+ ((int)wall->tx & (wall->text.width - 1)) * (wall->text.bpp >> 3));
+		color = *(unsigned int *)(wall->text.buffer
+				+ ((int)wall->ty & (wall->text.height - 1))
+				* wall->text.line_len
+				+ ((int)wall->tx & (wall->text.width - 1))
+				* (wall->text.bpp >> 3));
+		apply_shading(wall, &color, SHADE);
 		line = init_line(x, wall->line_offset + i, x1, wall->line_offset + i);
 		draw_line(&g->img, &line, color);
 		wall->ty += wall->ty_step;
@@ -97,7 +89,7 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall* wall)
 	}
 }
 
-void	apply_texture(t_game *g, t_ray *ray, t_wall* wall)
+void	apply_texture(t_game *g, t_ray *ray, t_wall *wall)
 {
 	get_wall_orientation(g, ray, wall);
 	compute_tx(ray, wall);
