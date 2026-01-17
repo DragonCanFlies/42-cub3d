@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:24:50 by loasaad           #+#    #+#             */
-/*   Updated: 2025/05/28 19:02:37 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/17 19:09:33 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,17 @@ int	ft_read_loop(char **leftover, char *buffer, int fd)
 	return (1);
 }
 
-void	ft_free_null(char **ptr)
-{
-	if (ptr && *ptr)
-	{
-		free (*ptr);
-		*ptr = NULL;
-	}
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
 	char		*buffer;
 	int			bytes_read;
 
+	if (fd == -1)
+	{
+		ft_free_null(&leftover);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
