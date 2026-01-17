@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:58:00 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/14 15:28:00 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/17 19:05:15 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handle_error(char *msg)
 void	clean_exit(char *msg, t_map *map, char *line, int fd)
 {
 	print_error(msg);
+	get_next_line(-1);
 	clean_map(map);
 	if (line)
 		free(line);
@@ -37,16 +38,11 @@ void	clean_exit(char *msg, t_map *map, char *line, int fd)
 
 void	clean_exit_no_msg(t_map *map, char *line, int fd)
 {
+	get_next_line(-1);
 	clean_map(map);
 	if (line)
 		free(line);
 	if (fd != -1)
 		close(fd);
 	exit(1);
-}
-
-void	perror_exit(const char *message)
-{
-	printf("%s\n", message);
-	exit(EXIT_FAILURE);
 }

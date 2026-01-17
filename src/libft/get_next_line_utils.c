@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:25:05 by loasaad           #+#    #+#             */
-/*   Updated: 2025/05/28 17:59:53 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/17 18:48:38 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,13 @@ char	*ft_substr(char const *s, int start, int len)
 	}
 	substr[i] = '\0';
 	return (substr);
+}
+
+void	ft_free_null(char **ptr)
+{
+	if (ptr && *ptr)
+	{
+		free (*ptr);
+		*ptr = NULL;
+	}
 }

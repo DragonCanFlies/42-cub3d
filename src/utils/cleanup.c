@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 21:18:17 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/14 15:23:45 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/17 19:38:39 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,20 @@ void	clean_map(t_map *map)
 		free(map->map_data);
 		map->map_data = NULL;
 	}
+}
+
+void	clean_exit_game(t_game *g)
+{
+	destroy_textures(g);
+	if (g->img.img)
+		mlx_destroy_image(g->mlx, g->img.img);
+	if (g->win)
+		mlx_destroy_window(g->mlx, g->win);
+	if (g->mlx)
+	{
+		//mlx_destroy_display(g->mlx); //only for linux
+		free(g->mlx);
+	}
+	clean_map(&g->map);
+	exit (0);
 }

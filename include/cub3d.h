@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/17 19:27:28 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -17,7 +29,7 @@
 # define RAY_ACC	0.1
 # define MOVE_SPEED	3
 # define ROT_SPEED	2
-#define PLAYER_RADIUS 20  // PLAYER_RADIUS must be < than MOVE_SPEED
+# define PLAYER_RADIUS 20  // PLAYER_RADIUS must be < than MOVE_SPEED
 
 # define KEY_W		13
 # define KEY_A		0
@@ -41,9 +53,10 @@
 # define ONLY_ONE_PLAYER "There are several player starting positions.\n"
 # define NO_PLAYER "No player starting position.\n"
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
-	ceiling and floor colors and then the map.\n"
+ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC\n"
+# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number.\
+ Change window size or RAY_ACC\n"
 # define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
 
 typedef enum e_id
@@ -104,32 +117,30 @@ typedef struct s_img
 	int		width;
 	int		height;
 	float	map_scale;
-	// float	inv_map_scale;
 }			t_img;
-
 
 typedef struct s_ray
 {
-	int		index;		// RAY index
-	float	ra;         // Ray angle
-	float	rx;         // Ray X position
-	float	ry;         // Ray Y position
-	float	xo;         // X offset (step size)
-	float	yo;         // Y offset (step size)
-	float	v_hit_x;    // Vertical hit X
-	float	v_hit_y;    // Vertical hit Y
-	float	h_hit_x;    // horizontal hit X
-	float	h_hit_y;    // horizontal hit Y
-	float	dis_v;      // Vertical distance
-	float	dis_h;      // Horizontal distance
-	float	tan_val;    // Tangent value
-	int		dof;        // Depth of field
-	int		mx;         // Map X coordinate
-	int		my;         // Map Y coordinate
-	int		mp;         // Map position (array index)
+	int		index;
+	float	ra;
+	float	rx;
+	float	ry;
+	float	xo;
+	float	yo;
+	float	v_hit_x;
+	float	v_hit_y;
+	float	h_hit_x;
+	float	h_hit_y;
+	float	dis_v;
+	float	dis_h;
+	float	tan_val;
+	int		dof;
+	int		mx;
+	int		my;
+	int		mp;
 }			t_ray;
 
-typedef enum	e_wall_dir
+typedef enum e_wall_dir
 {
 	N,
 	S,
@@ -139,26 +150,20 @@ typedef enum	e_wall_dir
 
 typedef struct s_wall
 {
-	int			line_h;     // Wall height
-	int			line_offset;   // Wall offset
-	int			ca;         // Corrected angle
-	int			color;      // Wall color. delete later?
+	int			line_h;
+	int			line_offset;
+	int			ca;
+	int			color;
 	float		x;
 	float		y;
 	float		dis;
 	t_wall_dir	wall_dir;
 	t_img		text;
-	float		tx; // text coordinates
+	float		tx;
 	float		ty;
 	float		ty_step;
 	float		ty_off;
-	// float		texture_scale; 
 }		t_wall;
-
-
-// *img is for mlx
-// bpp = bits per pixel, usually 32
-
 
 typedef struct s_player
 {
@@ -199,8 +204,7 @@ typedef struct s_game
 	t_keys		keys;
 	t_map		map;
 	t_tex		tex;
-	//int			map[MAP_X * MAP_Y];
-	float			px_per_ray;
+	float		px_per_ray;
 }				t_game;
 
 //libft
@@ -210,9 +214,9 @@ int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
 //events
 	//key_hooks
-int	close_window(t_game *game);
-int	key_press(int keycode, t_game *game);
-int	key_release(int keycode, t_game *game);
+int		close_window(t_game *game);
+int		key_press(int keycode, t_game *game);
+int		key_release(int keycode, t_game *game);
 
 	//setup_hooks
 void	setup_hooks(t_game *g);
@@ -221,16 +225,16 @@ void	setup_hooks(t_game *g);
 void	init_game(t_game *g);
 int		load_texture(char *path, t_img *texture, t_game *g);
 int		rgb_to_int(uint8_t *colors_input);
-void	destroy_images(t_game *g);
+void	destroy_textures(t_game *g);
 void	init_texture(t_game *g);
 
 //render
 void	put_pixel(t_img *img, int x, int y, int color);
-void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
+void	draw_rect(t_img *img, int x, int y, int w, int h, int color); // we never use this
 void	draw_line(t_img *img, t_line *l, int color);
 t_line	init_line(int x1, int y1, int x2, int y2);
-int	render(t_game *game);
-void	apply_texture(t_game *g, t_ray *ray, t_wall* wall);
+int		render(t_game *game);
+void	apply_texture(t_game *g, t_ray *ray, t_wall *wall);
 
 //player
 void	update_player(t_game *game);
@@ -266,9 +270,9 @@ void	handle_error(char *msg);
 void	clean_exit(char *msg, t_map *map, char *line, int fd);
 void	clean_exit_no_msg(t_map *map, char *line, int fd);
 void	perror_exit(const char *message);
+void	clean_exit_game(t_game *g);
 	//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
-
 
 #endif
