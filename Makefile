@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+         #
+#    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/14 20:00:27 by loasaad          ###   ########.fr        #
+#    Updated: 2026/01/17 21:51:13 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@ NAME		= cub3D
 
 # Compiler and flags
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -O3 -g
+CFLAGS		= -Wall -Wextra -Werror
 INCLUDES	= -Iinclude -Imlx
 
 # MLX settings
 MLX_DIR		= mlx
 MLX_LIB		= $(MLX_DIR)/libmlx.a
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+# MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11
 MATH_FLAGS	= -lm
 
 # Directories
@@ -33,6 +34,7 @@ SRCS		= src/cub3d.c \
 			  src/raycaster/check_walls.c \
 			  src/render/render.c \
 			  src/render/render_texture.c \
+			  src/render/render_texture_helpers.c \
 			  src/player/player_movement.c \
 			  src/parser/parse_input.c \
 			  src/parser/parse_map.c \

@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 19:27:28 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:51:00 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define MOVE_SPEED	3
 # define ROT_SPEED	2
 # define PLAYER_RADIUS 20  // PLAYER_RADIUS must be < than MOVE_SPEED
+# define SHADE 0.5
 
 # define KEY_W		13
 # define KEY_A		0
@@ -235,6 +236,8 @@ void	draw_line(t_img *img, t_line *l, int color);
 t_line	init_line(int x1, int y1, int x2, int y2);
 int		render(t_game *game);
 void	apply_texture(t_game *g, t_ray *ray, t_wall *wall);
+void	get_wall_orientation(t_game *g, t_ray *ray, t_wall *wall);
+void	check_boundaries(t_wall *wall);
 
 //player
 void	update_player(t_game *game);
