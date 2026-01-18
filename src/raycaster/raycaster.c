@@ -11,6 +11,7 @@ static void	draw_wall(t_game *g, t_wall *w, t_ray *r)
 	w->ca = (int)fix_angle(g->player.angle - r->ra);
 	w->dis *= cos(deg_to_rad(w->ca));//fisheye correction
 	w->line_h = (MAP_S * WIN_HEIGHT) / w->dis;
+	// g->zbuffer[(int)(r->index * g->px_per_ray)] = w->dis;
 	apply_texture(g, r, w);
 	// if (w->line_h > WIN_HEIGHT)
 	// 	w->line_h = WIN_HEIGHT;
@@ -44,6 +45,20 @@ static void	compare_distance(t_ray *ray, t_wall *wall)
 		wall->color = 0x00CC00;
 	}
 }
+static void fill_zbuffer(t_game *game, t_ray *ray, float dist)
+{
+    int x = (int)(ray->index * game->px_per_ray);
+    int x_end = (int)((ray->index + 1) * game->px_per_ray);
+    
+    if (x_end > WIN_WIDTH)
+        x_end = WIN_WIDTH;
+    while (x < x_end)
+    {
+        if (x >= 0 && x < WIN_WIDTH)
+            game->zbuffer[x] = dist;
+        x++;
+    }
+}
 
 void	ray_caster(t_game *game)
 {
@@ -54,11 +69,12 @@ void	ray_caster(t_game *game)
 	ray.index = 0;
 	ray.ra = fix_angle(game->player.angle + (FOV / 2));
 	angle_offset = 0;
-	while (angle_offset < FOV)
+	while (angle_offset < FOV - RAY_ACC)//debug added ray_acc
 	{
 		check_vertical(&ray, game);
 		check_horizontal(&ray, game);
 		compare_distance(&ray, &wall);
+		fill_zbuffer(game, &ray, wall.dis);
 		draw_wall(game, &wall, &ray);
 		ray.ra = fix_angle(ray.ra - RAY_ACC);
 		angle_offset += RAY_ACC;

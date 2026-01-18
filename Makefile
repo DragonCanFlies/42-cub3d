@@ -6,7 +6,7 @@
 #    By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/14 20:00:27 by loasaad          ###   ########.fr        #
+#    Updated: 2026/01/16 16:46:43 by loasaad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,18 @@ SRCS		= src/cub3d.c \
 			  src/utils/utils_math.c \
 			  src/libft/get_next_line.c \
 			  src/libft/get_next_line_utils.c \
-			  src/libft/libft.c
+			  src/libft/libft.c \
+			  src/sprites/sprite_init.c \
+			  src/sprites/sprite_distance.c \
+			  src/sprites/sprite_transform.c \
+			  src/sprites/sprite_draw_utils.c \
+			  src/sprites/sprite_draw.c \
+			  src/sprites/sprite_render.c \
+			  src/sprites/enemy_update.c \
+			  src/sprites/enemy_move.c \
+			  src/sprites/enemy_ai.c \
+			  src/sprites/game_collectibles.c \
+			  src/sprites/game_shoot.c
 
 # Object files - use patsubst for correct path handling
 OBJS		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

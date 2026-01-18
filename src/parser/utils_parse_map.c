@@ -44,6 +44,9 @@ int	has_valid_characters(char *line, int *player_found)
 			|| line[i] == '1'
 			|| line[i] == '0'
 			|| line[i] == '\n'
+			|| line[i] == 'G'	//bonus
+			|| line[i] == 'F'	//bonus
+			|| line[i] == '.'	//bonus
 		)
 			;
 		else

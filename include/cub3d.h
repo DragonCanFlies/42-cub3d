@@ -9,8 +9,9 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h> // uint8_t
+# include <sys/time.h> //BONUS
 
-# define WIN_WIDTH	1280
+# define WIN_WIDTH	1200
 # define WIN_HEIGHT	720
 # define MAP_S		64
 # define FOV		60
@@ -42,7 +43,7 @@
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
 	ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC"
+# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC\n"
 # define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
 typedef enum e_id
 {
@@ -188,6 +189,59 @@ typedef struct s_tex
 	t_img		west;
 }				t_tex;
 
+
+//BONUS
+/* ========== SPRITE SYSTEM  ========== */
+
+typedef struct s_sprite
+{
+	float	x;
+	float	y;
+	float	dist;
+	int		tex_id;
+	int		type;
+	int		alive;
+}	t_sprite;
+
+typedef struct s_spr_draw
+{
+	float	trans_x;
+	float	trans_y;
+	int		scr_x;
+	int		height;
+	int		width;
+}	t_spr_draw;
+
+typedef struct s_spr_bounds
+{
+	int	start_x;
+	int	end_x;
+	int	start_y;
+	int	end_y;
+}	t_spr_bounds;
+
+/* ========== SPRITE TYPES ========== */
+# define TYPE_ENEMY 0
+# define TYPE_FRUIT 1
+# define TYPE_FOOD 2
+
+/* ========== TEXTURE IDS (for sprites) ========== */
+# define TEX_GHOST1 0
+# define TEX_GHOST2 1
+# define TEX_GHOST3 2
+# define TEX_GHOST4 3
+# define TEX_FRUIT 4
+# define TEX_FOOD 5
+
+/* ========== SPRITE CONSTANTS ========== */
+# define FOV_SCALE 0.577f
+# define MAX_SPRITES 100
+# define ENEMY_SPEED 1.5f //1.5 default
+# define ANIM_SPEED 0.2f
+
+//BONUS
+
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -199,6 +253,15 @@ typedef struct s_game
 	t_tex		tex;
 	//int			map[MAP_X * MAP_Y];
 	float			px_per_ray;
+		/* BONUS */
+	t_sprite	*sprites;
+	int			sprite_count;
+	t_img		spr_tex[6];  // 4 ghost frames + 1 fruit + 1 food
+	float		*zbuffer;
+	int			has_weapon;
+	int			collectibles;
+	float		delta_time;
+	float		last_time;
 }				t_game;
 
 //libft
@@ -266,6 +329,31 @@ void	perror_exit(const char *message);
 	//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
+//BONUS
+/* ========== SPRITE FUNCTIONS ========== */
+void			init_sprites(t_game *g);
+void			load_sprite_tex(t_game *g);
+void			add_sprite(t_game *g, float x, float y, int type);
+void			parse_sprites(t_game *g);
+void			update_sprites(t_game *g);
+void			render_sprites(t_game *g);
+void			calc_spr_dist(t_game *g);
+void			sort_sprites(t_game *g);
+void			draw_sprite(t_game *g, t_sprite *s);
+void			update_enemies(t_game *g);
+void			move_enemy(t_game *g, t_sprite *e);
+void			animate_enemy(t_game *g, t_sprite *enemy);
+void			check_collectibles(t_game *g);
+void			player_shoot(t_game *g);
 
-
+/* Sprite drawing helpers */
+void			transform_sprite(t_game *g, t_sprite *s, t_spr_draw *d);
+void			calc_bounds(t_spr_draw *d, t_spr_bounds *b);
+void			draw_sprite_cols(t_game *g, t_sprite *s, t_spr_draw *d,
+					t_spr_bounds *b);
+int				get_spr_pixel(t_img *tex, int x, int y);
+int				calc_tex_x(int x, t_spr_draw *d, int tex_w);
+int				calc_tex_y(int y, t_spr_draw *d, int tex_h);
+int				is_transparent(int color);
+int				check_zbuffer(t_game *g, int x, float dist);
 #endif

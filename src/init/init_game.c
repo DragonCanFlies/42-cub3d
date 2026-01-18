@@ -13,7 +13,9 @@ void	init_game(t_game *g)
 		&g->img.line_len, &g->img.endian);
 	g->px_per_ray = (WIN_WIDTH * RAY_ACC) / FOV;
 	if (fmod((WIN_WIDTH * RAY_ACC), FOV) != 0)
-		write(2, ERR_PPR, 75);
+		write(2, ERR_PPR, 76);
 	ft_bzero(&g->keys, sizeof(g->keys));
 	init_texture(g);
+	//BONUS
+	init_sprites(g);
 }

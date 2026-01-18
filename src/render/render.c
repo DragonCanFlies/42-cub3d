@@ -98,6 +98,8 @@ int	render(t_game *game)
 	//draw_map_2d(game);      // 2D top-down map (left side)
 	ray_caster(game);     // 3D raycasted view (right side)
 	//draw_player_2d(game);   // Player indicator on 2D map
+	update_sprites(game);
+	render_sprites(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	return (0);
 }
