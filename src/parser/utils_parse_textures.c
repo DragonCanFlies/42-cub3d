@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parse_textures.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/18 14:32:07 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/18 14:32:09 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -11,7 +22,7 @@ void	skip_space_or_tab(char *line, int *i)
 // Skip non-whitespace characters (advance to next space/tab/newline)
 void	skip_token(char *line, int *i)
 {
-	while (line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\n')
+	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\n')
 		(*i)++;
 }
 
