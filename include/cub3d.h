@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 21:51:00 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:18:11 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define NO_INFO "Identifier is not followed by any information.\n"
 # define INVALID_ID "Identifier should be NO, SO, WE, EA, C or F\n"
 # define MALLOC "Memory allocation failure.\n"
-# define EXTRA_INFO "Identifier: path/RGB not respected.\n"
+# define EXTRA_INFO "Extra info after identifier and path/rgb.\n"
 # define NO_MAP "A map must be provided in the file.\n"
 # define EMPTY_LINE_IN_MAP "Empty lines inside the map are forbidden.\n"
 # define INVALID_CHAR_MAP "Map can only contain 0, 1, N, S, W or E\n"
