@@ -71,8 +71,7 @@ void	parse_input(int argc, char **argv, t_game *g)
 	parse_map(&g->map, fd, line);
 	normalize_map(&g->map);
 	parse_player_data(g);
-	// TODO check map is enclosed by wall
+	ensure_closed_map(g);
 	if (!create_int_map_array(&g->map))
 		clean_exit(MALLOC, &g->map, line, fd);
-	// TODO tests and memory leaks
 }

@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 14:18:11 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/18 15:20:09 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
 ceiling and floor colors and then the map.\n"
 # define COLOR "There must be 3 colors, each one from 0 to 255.\n"
-# define ERR_PPR "Warning PIXELS_PER_RAY is not a whole number.\
- Change window size or RAY_ACC\n"
+# define ERR_PPR \
+"Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC.\n"
 # define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
 
 typedef enum e_id
