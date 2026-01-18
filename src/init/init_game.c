@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:25:03 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 19:33:04 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/18 15:21:17 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_game(t_game *g)
 			&g->img.line_len, &g->img.endian);
 	g->px_per_ray = (WIN_WIDTH * RAY_ACC) / FOV;
 	if (fmod((WIN_WIDTH * RAY_ACC), FOV) != 0)
-		write(2, ERR_PPR, 75);
+		ft_putstr_fd(ERR_PPR, 2);
 	ft_bzero(&g->keys, sizeof(g->keys));
 	init_texture(g);
 }

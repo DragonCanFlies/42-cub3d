@@ -6,7 +6,7 @@
 #    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/17 21:51:13 by latabagl         ###   ########.fr        #
+#    Updated: 2026/01/18 15:22:33 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS		= src/cub3d.c \
 			  src/render/render_texture.c \
 			  src/render/render_texture_helpers.c \
 			  src/player/player_movement.c \
+			  src/parser/closed_map.c \
 			  src/parser/parse_input.c \
 			  src/parser/parse_map.c \
 			  src/parser/parse_player_data.c \
