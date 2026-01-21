@@ -62,4 +62,6 @@ void	update_player(t_game *game)
 		game->player.x = new_x;
 		game->player.y = new_y;
 	}
+	if (game->damage_cooldown > 0.0f)
+		game->damage_cooldown -= game->delta_time;
 }

@@ -18,4 +18,8 @@ void	init_game(t_game *g)
 	init_texture(g);
 	//BONUS
 	init_sprites(g);
+    init_gun(g);
+	g->health = PLAYER_MAX_HEALTH;
+    g->max_health = PLAYER_MAX_HEALTH;
+    g->damage_cooldown = 0.0f;
 }

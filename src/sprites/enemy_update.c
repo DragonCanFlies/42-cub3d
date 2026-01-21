@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   enemy_update.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/15 10:00:00 by loasaad           #+#    #+#             */
-/*   Updated: 2026/01/16 16:26:01 by loasaad          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
 void	update_sprites(t_game *g)
@@ -38,20 +26,39 @@ void	update_enemies(t_game *g)
 		i++;
 	}
 }
-
-static float	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec + tv.tv_usec / 1000000.0f);
-}
-
 void	update_delta_time(t_game *g)
 {
-	float	current_time;
+	static struct timeval	last_tv;
+	static int				first_call = 1;
+	struct timeval			current_tv;
+	float					delta_sec;
+	float					delta_usec;
 
-	current_time = get_time();
-	g->delta_time = current_time - g->last_time;
-	g->last_time = current_time;
+	gettimeofday(&current_tv, NULL);
+
+	// First call - just initialize
+	if (first_call)
+	{
+		last_tv = current_tv;
+		first_call = 0;
+		g->delta_time = 0.0f;
+		printf("  → First call initialized\n");
+		return;
+	}
+	
+	
+	// Calculate delta components
+	delta_sec = (float)(current_tv.tv_sec - last_tv.tv_sec);
+	delta_usec = (float)(current_tv.tv_usec - last_tv.tv_usec) / 1000000.0f;
+	
+	g->delta_time = delta_sec + delta_usec;
+	
+	// Sanity check
+	if (g->delta_time > 1.0f)
+		g->delta_time = 1.0f;
+	if (g->delta_time < 0.0f)
+		g->delta_time = 0.0f;
+	
+	// Save for next frame
+	last_tv = current_tv;
 }

@@ -24,8 +24,8 @@ int	key_press(int keycode, t_game *game)
 		game->keys.left = 1;
 	if (keycode == KEY_RIGHT)
 		game->keys.right = 1;
-	if (keycode == 49)  // SPACE key (49 on Mac, 32 on Linux)
-		player_shoot(game);
+	if (keycode == 49 || keycode == 32)  // SPACE
+		game->keys.space = 1;  // CHANGED: just set flag
 	return (0);
 	
 }
@@ -45,5 +45,7 @@ int	key_release(int keycode, t_game *game)
 		game->keys.left = 0;
 	if (keycode == KEY_RIGHT)
 		game->keys.right = 0;
+	if (keycode == 49 || keycode == 32)  // SPACE
+		game->keys.space = 0;  // ADD THIS
 	return (0);
 }

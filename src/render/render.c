@@ -94,12 +94,17 @@ int	render(t_game *game)
 		((int *)game->img.buffer)[i] = game->tex.floor;
 		i++;
 	}
+	update_delta_time(game);
 	update_player(game);
 	//draw_map_2d(game);      // 2D top-down map (left side)
 	ray_caster(game);     // 3D raycasted view (right side)
 	//draw_player_2d(game);   // Player indicator on 2D map
 	update_sprites(game);
+	update_gun(game);
 	render_sprites(game);
+	render_player_hud(game);
+	render_gun(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
+	render_gun_hud(game);  // Optional ammo/timer display
 	return (0);
 }

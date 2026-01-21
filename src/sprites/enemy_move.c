@@ -46,20 +46,38 @@ static void	apply_movement(t_game *g, t_sprite *e, float dx, float dy)
 		e->y = new_y;
 }
 
-void	move_enemy(t_game *g, t_sprite *e)
+void    move_enemy(t_game *g, t_sprite *e)
 {
-	float	dx;
-	float	dy;
-	float	dist;
+    float   dx;
+    float   dy;
+    float   dist;
 
-	dx = g->player.x - e->x;
-	dy = g->player.y - e->y;
-	dist = calc_distance(e->x, e->y, g->player.x, g->player.y);
-	if (dist < 32.0f)
-	{
-		ft_putstr_fd("Game Over! Enemy caught you!\n", 1);
-		close_window(g);
-	}
-	normalize_direction(&dx, &dy, dist);
-	apply_movement(g, e, dx, dy);
+    dx = g->player.x - e->x;
+    dy = g->player.y - e->y;
+    dist = calc_distance(e->x, e->y, g->player.x, g->player.y);
+    
+    if (dist < 32.0f)
+    {
+        if (g->damage_cooldown <= 0.0f)  // OK to take damage
+        {
+            g->health -= ENEMY_DAMAGE;
+            g->damage_cooldown = DAMAGE_COOLDOWN;
+            
+            printf("HP: %d/%d\n", g->health, g->max_health);  // DEBUG
+            
+            if (g->health <= 0)
+            {
+                g->health = 0;
+                ft_putstr_fd("Game Over! You died!\n", 1);
+                close_window(g);
+            }
+            else
+            {
+                ft_putstr_fd("Hit by enemy! -20 HP\n", 1);
+            }
+        }
+    }
+    
+    normalize_direction(&dx, &dy, dist);
+    apply_movement(g, e, dx, dy);
 }

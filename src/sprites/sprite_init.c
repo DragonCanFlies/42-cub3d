@@ -9,7 +9,6 @@ void	init_sprites(t_game *g)
 	if (!g->zbuffer)
 		perror_exit("Zbuffer allocation failed");
 	g->sprite_count = 0;
-	g->has_weapon = 0;
 	g->collectibles = 0;
 	load_sprite_tex(g);
 	parse_sprites(g);
@@ -42,8 +41,12 @@ void	add_sprite(t_game *g, float x, float y, int type)
 	s->y = (y * MAP_S) + (MAP_S >> 1);
 	s->type = type;
 	s->alive = 1;
-	if (type == TYPE_ENEMY)
-		s->tex_id = TEX_GHOST1;
+    if (type == TYPE_ENEMY)
+    {
+        s->tex_id = TEX_GHOST1;
+        s->health = ENEMY_MAX_HEALTH;
+        s->max_health = ENEMY_MAX_HEALTH;
+    }
 	else if (type == TYPE_FRUIT)
 		s->tex_id = TEX_FRUIT;
 	else if (type == TYPE_FOOD)

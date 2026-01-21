@@ -12,8 +12,15 @@ static float	calc_dist_to_player(t_game *g, t_sprite *s)
 
 static void	collect_fruit(t_game *g)
 {
-	g->has_weapon = 1;
-	ft_putstr_fd("Weapon acquired! Press SPACE to shoot!\n", 1);
+	g->gun.ammo += AMMO_PER_FRUIT;
+    g->gun.timer = GUN_DURATION;  // Reset to 10 seconds
+    g->gun.active = 1;
+    
+    ft_putstr_fd("Weapon acquired! +100 AMMO! Press SPACE to shoot!\n", 1);
+	g->health += 20;
+    if (g->health > g->max_health)
+        g->health = g->max_health;
+    ft_putstr_fd("Food collected! +20 HP!\n", 1);
 }
 
 static void	collect_food(t_game *g)

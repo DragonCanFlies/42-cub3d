@@ -18,9 +18,8 @@ static void	draw_column(t_game *g, t_sprite *s, t_spr_draw *d, int x)
 	t_img	*tex;
 
 
-	if (!check_zbuffer(g, x, d->trans_y))
+	if (!check_zbuffer(g, x, d->dist_y))
 		return ;
-		
 	tex = &g->spr_tex[s->tex_id];
 	tex_x = calc_tex_x(x, d, tex->width);
 	y = -d->height / 2 + WIN_HEIGHT / 2;
@@ -33,6 +32,22 @@ static void	draw_column(t_game *g, t_sprite *s, t_spr_draw *d, int x)
 		draw_pixel_safe(g, x, y, color);
 		y++;
 	}
+}
+
+static void	calc_bounds(t_spr_draw *d, t_spr_bounds *b)
+{
+	b->start_y = -(d->height >> 1) + (WIN_HEIGHT >> 1);
+	b->end_y = (d->height >> 1) + (WIN_HEIGHT >> 1);
+	b->start_x = -(d->width >> 1) + d->scr_x;
+	b->end_x = (d->width >> 1) + d->scr_x;
+	if (b->start_y < 0)
+		b->start_y = 0;
+	if (b->end_y >= WIN_HEIGHT)
+		b->end_y = WIN_HEIGHT - 1;
+	if (b->start_x < 0)
+		b->start_x = 0;
+	if (b->end_x >= WIN_WIDTH)
+		b->end_x = WIN_WIDTH - 1;
 }
 
 void draw_sprite_cols(t_game *g, t_sprite *s, t_spr_draw *d, t_spr_bounds *b)
@@ -53,7 +68,7 @@ void	draw_sprite(t_game *g, t_sprite *s)
 	t_spr_bounds	b;
 
 	transform_sprite(g, s, &d);
-	if (d.trans_y <= 0)
+	if (d.dist_y <= 0)
         return;
 	calc_bounds(&d, &b);
 	draw_sprite_cols(g, s, &d, &b);

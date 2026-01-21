@@ -6,7 +6,7 @@
 #    By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/16 16:46:43 by loasaad          ###   ########.fr        #
+#    Updated: 2026/01/21 15:11:53 by loasaad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS		= src/cub3d.c \
 			  src/raycaster/check_walls.c \
 			  src/render/render.c \
 			  src/render/render_texture.c \
+			  src/render/hud.c \
 			  src/player/player_movement.c \
 			  src/parser/parse_input.c \
 			  src/parser/parse_map.c \
@@ -52,6 +53,7 @@ SRCS		= src/cub3d.c \
 			  src/libft/get_next_line.c \
 			  src/libft/get_next_line_utils.c \
 			  src/libft/libft.c \
+			  src/libft/itoa.c \
 			  src/sprites/sprite_init.c \
 			  src/sprites/sprite_distance.c \
 			  src/sprites/sprite_transform.c \
@@ -60,9 +62,14 @@ SRCS		= src/cub3d.c \
 			  src/sprites/sprite_render.c \
 			  src/sprites/enemy_update.c \
 			  src/sprites/enemy_move.c \
-			  src/sprites/enemy_ai.c \
+			  src/sprites/sprite_animate.c \
 			  src/sprites/game_collectibles.c \
-			  src/sprites/game_shoot.c
+			  src/sprites/game_shoot.c \
+			  src/gun/gun_animate.c \
+			  src/gun/gun_init.c \
+			  src/gun/gun_render.c \
+			  src/gun/gun_update.c \
+			  
 
 # Object files - use patsubst for correct path handling
 OBJS		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

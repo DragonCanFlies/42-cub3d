@@ -41,8 +41,17 @@ int	calc_tex_y(int y, t_spr_draw *d, int tex_h)
 
 int is_transparent(int color)
 {
-	return ((color & 0x00FFFFFF) == 0x00FF00FF);
+    // Your gun background: rgb(152, 0, 136)
+    if ((color & 0x00FFFFFF) == 0x00980088)
+        return (1);
+    
+    // Magenta (common transparent color)
+    if ((color & 0x00FFFFFF) == 0x00FF00FF)
+        return (1);
+    
+    return (0);
 }
+
 int	check_zbuffer(t_game *g, int x, float dist)
 {
 	if (x < 0 || x >= WIN_WIDTH)

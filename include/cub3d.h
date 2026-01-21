@@ -154,10 +154,8 @@ typedef struct s_wall
 	// float		texture_scale; 
 }		t_wall;
 
-
 // *img is for mlx
 // bpp = bits per pixel, usually 32
-
 
 typedef struct s_player
 {
@@ -177,6 +175,7 @@ typedef struct s_keys
 	int	esc;
 	int	left;
 	int	right;
+	int	space;
 }		t_keys;
 
 typedef struct s_tex
@@ -201,12 +200,14 @@ typedef struct s_sprite
 	int		tex_id;
 	int		type;
 	int		alive;
+	int     health;
+	int     max_health;
 }	t_sprite;
 
 typedef struct s_spr_draw
 {
-	float	trans_x;
-	float	trans_y;
+	float	ray_x;
+	float	dist_y;
 	int		scr_x;
 	int		height;
 	int		width;
@@ -219,6 +220,34 @@ typedef struct s_spr_bounds
 	int	start_y;
 	int	end_y;
 }	t_spr_bounds;
+
+// Gun system
+typedef enum e_gun_state
+{
+    GUN_IDLE,       // Frame 0 (idle)
+    GUN_FIRE_START, // Frame 1 (transition to firing)
+    GUN_FIRING,     // Frames 2-3 (cycle while shooting)
+    GUN_FIRE_END    // Frame 4 (transition back to idle)
+}   t_gun_state;
+
+typedef struct s_gun
+{
+    t_img       frames[5];        // 5 frames now (not 4!)
+    int         current_frame;    // Which frame (0-4)
+    t_gun_state state;            // Current animation state
+    int         ammo;
+    float       timer;
+    float       fire_cooldown;
+    int         active;
+    float       anim_timer;
+}   t_gun;
+
+// Constants
+#define GUN_DURATION 12.0
+#define FIRE_RATE 0.05f       // 200ms between shots = 5/sec
+#define AMMO_PER_FRUIT 100
+#define ENEMY_MAX_HEALTH 10
+#define GUN_ANIM_SPEED 0.03  // 20 FPS for smooth firing
 
 /* ========== SPRITE TYPES ========== */
 # define TYPE_ENEMY 0
@@ -234,10 +263,19 @@ typedef struct s_spr_bounds
 # define TEX_FOOD 5
 
 /* ========== SPRITE CONSTANTS ========== */
-# define FOV_SCALE 0.577f
 # define MAX_SPRITES 100
 # define ENEMY_SPEED 1.5f //1.5 default
-# define ANIM_SPEED 0.2f
+# define E_ANIM_SPEED 0.2f
+
+#define MIN_SPRITE_DIST 10.0f
+#define MAX_SPRITE_SIZE (WIN_HEIGHT << 1)
+#define INV_RAY_ACC (1.0f / RAY_ACC)
+#define RAD_TO_DEG (180.0f / M_PI)
+#define HALF_FOV (FOV * 0.5f)
+
+#define PLAYER_MAX_HEALTH 100
+#define ENEMY_DAMAGE 20
+#define DAMAGE_COOLDOWN 1.0f  // 1 second invincibility after taking damage
 
 //BONUS
 
@@ -258,17 +296,20 @@ typedef struct s_game
 	int			sprite_count;
 	t_img		spr_tex[6];  // 4 ghost frames + 1 fruit + 1 food
 	float		*zbuffer;
-	int			has_weapon;
 	int			collectibles;
 	float		delta_time;
 	float		last_time;
+	t_gun   	gun;
+	int			health;
+	int			max_health;
+	float		damage_cooldown;
 }				t_game;
 
 //libft
 void	ft_bzero(void *s, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
-
+char	*ft_itoa(int n);
 //events
 	//key_hooks
 int	close_window(t_game *game);
@@ -292,7 +333,7 @@ void	draw_line(t_img *img, t_line *l, int color);
 t_line	init_line(int x1, int y1, int x2, int y2);
 int	render(t_game *game);
 void	apply_texture(t_game *g, t_ray *ray, t_wall* wall);
-
+void    render_player_hud(t_game *g);
 //player
 void	update_player(t_game *game);
 
@@ -345,10 +386,10 @@ void			move_enemy(t_game *g, t_sprite *e);
 void			animate_enemy(t_game *g, t_sprite *enemy);
 void			check_collectibles(t_game *g);
 void			player_shoot(t_game *g);
+void			update_delta_time(t_game *g);
 
 /* Sprite drawing helpers */
 void			transform_sprite(t_game *g, t_sprite *s, t_spr_draw *d);
-void			calc_bounds(t_spr_draw *d, t_spr_bounds *b);
 void			draw_sprite_cols(t_game *g, t_sprite *s, t_spr_draw *d,
 					t_spr_bounds *b);
 int				get_spr_pixel(t_img *tex, int x, int y);
@@ -356,4 +397,10 @@ int				calc_tex_x(int x, t_spr_draw *d, int tex_w);
 int				calc_tex_y(int y, t_spr_draw *d, int tex_h);
 int				is_transparent(int color);
 int				check_zbuffer(t_game *g, int x, float dist);
+//gun
+void    	init_gun(t_game *g);
+void    	render_gun_hud(t_game *g);
+void    	render_gun(t_game *g);
+void		update_gun(t_game *g);
+void    	animate_gun(t_gun *gun);
 #endif

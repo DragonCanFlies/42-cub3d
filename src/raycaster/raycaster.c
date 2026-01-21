@@ -74,7 +74,7 @@ void	ray_caster(t_game *game)
 		check_vertical(&ray, game);
 		check_horizontal(&ray, game);
 		compare_distance(&ray, &wall);
-		fill_zbuffer(game, &ray, wall.dis);
+		fill_zbuffer(game, &ray, wall.dis);//fisheye correction before this?
 		draw_wall(game, &wall, &ray);
 		ray.ra = fix_angle(ray.ra - RAY_ACC);
 		angle_offset += RAY_ACC;
