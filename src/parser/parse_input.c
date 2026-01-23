@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:00:50 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/22 18:01:02 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // return 1 if filename ends with .cub
@@ -50,11 +62,6 @@ static int	create_int_map_array(t_map *map)
 	return (1);
 }
 
-/* Inside main :
-	t_map	config;
-
-	parse_config(argc, argv, &config);
-	clean_config(&config);*/
 void	parse_input(int argc, char **argv, t_game *g)
 {
 	int				fd;

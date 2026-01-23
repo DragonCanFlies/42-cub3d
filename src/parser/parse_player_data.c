@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_player_data.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:01:13 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/22 18:01:20 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -5,6 +16,7 @@ static int	is_orientation(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
+
 static void	init_player(t_game *g, int row, int col)
 {
 	g->player.x = col * MAP_S + (MAP_S / 2);

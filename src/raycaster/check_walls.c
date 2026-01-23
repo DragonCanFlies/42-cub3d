@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_walls.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:02:04 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/22 18:10:37 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-
+// looking up than down
 static void	check_direction_h(t_ray *ray, t_game *g)
 {
-	if (sin(deg_to_rad(ray->ra)) > 0.001)//looking up
+	if (sin(deg_to_rad(ray->ra)) > 0.001)
 	{
 		ray->ry = (((int)g->player.y >> 6) << 6) - 0.0001;
 		ray->rx = (g->player.y - ray->ry) * ray->tan_val + g->player.x;
 		ray->yo = -64;
 		ray->xo = -ray->yo * ray->tan_val;
 	}
-	else if (sin(deg_to_rad(ray->ra)) < -0.001)//looking down
+	else if (sin(deg_to_rad(ray->ra)) < -0.001)
 	{
 		ray->ry = (((int)g->player.y >> 6) << 6) + 64;
 		ray->rx = (g->player.y - ray->ry) * ray->tan_val + g->player.x;
@@ -25,18 +37,19 @@ static void	check_direction_h(t_ray *ray, t_game *g)
 	}
 }
 
+//looking right than left
 static void	check_direction_v(t_ray *ray, t_game *g)
 {
-	if (cos(deg_to_rad(ray->ra)) > 0.001)//looking right
+	if (cos(deg_to_rad(ray->ra)) > 0.001)
 	{
 		ray->rx = (((int)g->player.x >> 6) << 6) + 64;
 		ray->ry = (g->player.x - ray->rx) * ray->tan_val + g->player.y;
 		ray->xo = 64;
 		ray->yo = -ray->xo * ray->tan_val;
 	}
-	else if (cos(deg_to_rad(ray->ra)) < -0.001)//looking left
+	else if (cos(deg_to_rad(ray->ra)) < -0.001)
 	{
-		ray->rx = (((int)g->player.x >> 6) << 6) + - 0.0001;
+		ray->rx = (((int)g->player.x >> 6) << 6) - 0.0001;
 		ray->ry = (g->player.x - ray->rx) * ray->tan_val + g->player.y;
 		ray->xo = -64;
 		ray->yo = -ray->xo * ray->tan_val;
@@ -48,6 +61,7 @@ static void	check_direction_v(t_ray *ray, t_game *g)
 		ray->dof = g->map.x;
 	}
 }
+
 void	check_vertical(t_ray *ray, t_game *g)
 {
 	ray->dof = 0;
@@ -64,7 +78,7 @@ void	check_vertical(t_ray *ray, t_game *g)
 		{
 			ray->dof = g->map.x;
 			ray->dis_v = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
-			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
+				- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}
 		else
 		{
@@ -93,7 +107,7 @@ void	check_horizontal(t_ray *ray, t_game *g)
 		{
 			ray->dof = g->map.y;
 			ray->dis_h = cos(deg_to_rad(ray->ra)) * (ray->rx - g->player.x)
-			- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
+				- sin(deg_to_rad(ray->ra)) * (ray->ry - g->player.y);
 		}
 		else
 		{

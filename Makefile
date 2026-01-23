@@ -6,29 +6,21 @@
 #    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/18 15:22:33 by latabagl         ###   ########.fr        #
+#    Updated: 2026/01/23 13:14:21 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= cub3D
-
-# Compiler and flags
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 INCLUDES	= -Iinclude -Imlx
-
-# MLX settings
 MLX_DIR		= mlx
 MLX_LIB		= $(MLX_DIR)/libmlx.a
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 # MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11
 MATH_FLAGS	= -lm
-
-# Directories
 SRC_DIR		= src
 OBJ_DIR		= obj
-
-# Source files with paths
 SRCS		= src/cub3d.c \
 			  src/raycaster/raycaster.c \
 			  src/raycaster/check_walls.c \
@@ -55,18 +47,14 @@ SRCS		= src/cub3d.c \
 			  src/libft/get_next_line.c \
 			  src/libft/get_next_line_utils.c \
 			  src/libft/libft.c
-
-# Object files - use patsubst for correct path handling
 OBJS		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 
-# Colors
 GREEN		= \033[0;32m
 RED			= \033[0;31m
 YELLOW		= \033[0;33m
 BLUE		= \033[0;34m
 RESET		= \033[0m
 
-# Rules
 all: $(MLX_LIB) $(NAME)
 
 $(NAME): $(OBJS)
@@ -74,7 +62,6 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) $(MATH_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) created successfully!$(RESET)"
 
-# Create object directories and compile
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "$(BLUE)Compiling $<...$(RESET)"

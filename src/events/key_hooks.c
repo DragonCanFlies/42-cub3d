@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:23:51 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 19:24:12 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:14:43 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-// macOS
+macOS
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
@@ -55,8 +55,7 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
-// linux
-// #include <X11/keysym.h>
+// //linux
 // int	key_press(int keycode, t_game *game)
 // {
 // 	if (keycode == XK_Escape)

@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 15:20:09 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/22 18:15:36 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h> // uint8_t
+# include <X11/keysym.h>
 
 # define WIN_WIDTH	1280
 # define WIN_HEIGHT	720
@@ -90,9 +91,9 @@ typedef struct s_map
 	uint8_t	floor[3];
 	int		current_id;
 	char	**raw_map;
-	int		x; // nb of tiles
+	int		x;
 	int		y;
-	int		*map_data; // map_data[map_y * map_x + x]
+	int		*map_data;
 }				t_map;
 
 typedef struct s_line
@@ -213,13 +214,12 @@ void	ft_bzero(void *s, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
-//events
-	//key_hooks
+//key_hooks
 int		close_window(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 
-	//setup_hooks
+//setup_hooks
 void	setup_hooks(t_game *g);
 
 //init
@@ -231,7 +231,6 @@ void	init_texture(t_game *g);
 
 //render
 void	put_pixel(t_img *img, int x, int y, int color);
-void	draw_rect(t_img *img, int x, int y, int w, int h, int color); // we never use this
 void	draw_line(t_img *img, t_line *l, int color);
 t_line	init_line(int x1, int y1, int x2, int y2);
 int		render(t_game *game);
@@ -274,7 +273,8 @@ void	clean_exit(char *msg, t_map *map, char *line, int fd);
 void	clean_exit_no_msg(t_map *map, char *line, int fd);
 void	perror_exit(const char *message);
 void	clean_exit_game(t_game *g);
-	//utils_math
+
+//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
 

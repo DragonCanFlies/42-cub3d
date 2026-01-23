@@ -1,30 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:02:19 by latabagl          #+#    #+#             */
+/*   Updated: 2026/01/22 18:02:32 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static void	draw_wall(t_game *g, t_wall *w, t_ray *r)
 {
-	// int		i;
-	// int		x;
-	// int		y;
-	// int		x1;
-	// t_line	line;
-
 	w->ca = (int)fix_angle(g->player.angle - r->ra);
-	w->dis *= cos(deg_to_rad(w->ca));//fisheye correction
+	w->dis *= cos(deg_to_rad(w->ca));
 	w->line_h = (MAP_S * WIN_HEIGHT) / w->dis;
+	if (w->line_h < 1)
+		w->line_h = 1;
 	apply_texture(g, r, w);
-	// if (w->line_h > WIN_HEIGHT)
-	// 	w->line_h = WIN_HEIGHT;
-	// w->line_offset = (WIN_HEIGHT >> 1) - (w->line_h >> 1);
-	// i = 0;
-	// x = (int)r->index * g->px_per_ray;
-	// y = w->line_offset;
-	// x1 = (int)((r->index + 1) * g->px_per_ray) - 1;
-	// while (i < w->line_h)
-	// {
-	// 	line = init_line(x, y + i, x1, y + i);
-	// 	draw_line(&g->img, &line, w->color);
-	// 	i++;
-	// }
 }
 
 static void	compare_distance(t_ray *ray, t_wall *wall)

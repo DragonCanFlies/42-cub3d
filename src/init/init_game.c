@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:25:03 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 15:21:17 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:54:10 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_game(t_game *g)
 		print_error("MLX init failed\n");
 		clean_exit_game(g);
 	}
-	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT, "Raycaster MLX");
+	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!g->win)
 	{
 		print_error("Window creation failed\n");
