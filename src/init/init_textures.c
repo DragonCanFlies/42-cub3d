@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:33:50 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 19:40:49 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:55:30 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	destroy_textures(t_game *g)
 		mlx_destroy_image(g->mlx, g->tex.east.img);
 	if (g->tex.west.img)
 		mlx_destroy_image(g->mlx, g->tex.west.img);
+	if (g->tex.door.img)
+		mlx_destroy_image(g->mlx, g->tex.door.img);
 }
 
 void	init_texture(t_game *g)
@@ -52,7 +54,8 @@ void	init_texture(t_game *g)
 	if (!load_texture(g->map.north_path, &g->tex.north, g)
 		|| !load_texture(g->map.south_path, &g->tex.south, g)
 		|| !load_texture(g->map.east_path, &g->tex.east, g)
-		|| !load_texture(g->map.west_path, &g->tex.west, g))
+		|| !load_texture(g->map.west_path, &g->tex.west, g)
+		|| !load_texture("./textures/beautiful_door.xpm", &g->tex.door, g))
 	{
 		ft_putstr_fd("Error\nError loading a texture\n", 2);
 		clean_exit_game(g);

@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:15:25 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 15:20:09 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:34:37 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 # define EXTRA_INFO "Extra info after identifier and path/rgb.\n"
 # define NO_MAP "A map must be provided in the file.\n"
 # define EMPTY_LINE_IN_MAP "Empty lines inside the map are forbidden.\n"
-# define INVALID_CHAR_MAP "Map can only contain 0, 1, N, S, W or E\n"
+# define INVALID_CHAR_MAP "Map can only contain 0, 1, T, D, N, S, W or E\n"
 # define ONLY_ONE_PLAYER "There are several player starting positions.\n"
 # define NO_PLAYER "No player starting position.\n"
 # define INCOMPLETE_FILE "Information missing : we need all textures,\
@@ -59,6 +59,23 @@ ceiling and floor colors and then the map.\n"
 # define ERR_PPR \
 "Warning PIXELS_PER_RAY is not a whole number. Change window size or RAY_ACC.\n"
 # define CLOSED_MAP "The map must be closed/surrounded by walls.\n"
+
+typedef struct s_door
+{
+	int	x;
+	int	y;
+	int	open;
+}				t_door;
+
+typedef struct s_tp
+{
+	int	enabled;
+	int	just_teleported;
+	int	ax;
+	int	ay;
+	int	bx;
+	int	by;
+}				t_tp;
 
 typedef enum e_id
 {
@@ -93,6 +110,9 @@ typedef struct s_map
 	int		x; // nb of tiles
 	int		y;
 	int		*map_data; // map_data[map_y * map_x + x]
+	t_door	*doors;
+	int		doors_nb;
+	t_tp	tp;
 }				t_map;
 
 typedef struct s_line
@@ -194,6 +214,7 @@ typedef struct s_tex
 	t_img		south;
 	t_img		east;
 	t_img		west;
+	t_img		door;
 }				t_tex;
 
 typedef struct s_game
@@ -237,6 +258,7 @@ t_line	init_line(int x1, int y1, int x2, int y2);
 int		render(t_game *game);
 void	apply_texture(t_game *g, t_ray *ray, t_wall *wall);
 void	get_wall_orientation(t_game *g, t_ray *ray, t_wall *wall);
+void	assign_door_texture(t_game *g, t_ray *ray, t_wall *wall);
 void	check_boundaries(t_wall *wall);
 
 //player
@@ -263,6 +285,8 @@ int		handle_map_flag(int *map_flag, int flag);
 int		get_map_flag(char *line, int i, int j, t_map_flags *flags);
 int		textures_are_extracted(t_map_flags *flags);
 void	ensure_closed_map(t_game *g);
+void	parse_doors(t_game *g);
+void	parse_tp(t_game *g);
 
 //utils
 void	clean_map(t_map *map);
@@ -277,5 +301,10 @@ void	clean_exit_game(t_game *g);
 	//utils_math
 float	deg_to_rad(float angle);
 float	fix_angle(float angle);
+
+// bonus
+void	open_door(t_game *g);
+void	handle_teleportation(t_game *g);
+void	draw_minimap(t_game *g);
 
 #endif

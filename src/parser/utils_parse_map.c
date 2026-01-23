@@ -43,6 +43,8 @@ int	has_valid_characters(char *line, int *player_found)
 		else if (line[i] == ' '
 			|| line[i] == '1'
 			|| line[i] == '0'
+			|| line[i] == 'D'
+			|| line[i] == 'T'
 			|| line[i] == '\n'
 		)
 			;

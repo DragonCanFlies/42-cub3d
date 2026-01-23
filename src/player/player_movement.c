@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:21:06 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/16 22:43:51 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:49:53 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	update_player(t_game *game)
 		game->player.x = new_x;
 	if (pos_is_valid(game, game->player.x, new_y))
 		game->player.y = new_y;
+	handle_teleportation(game);
 }

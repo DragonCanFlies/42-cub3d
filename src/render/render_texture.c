@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:30:43 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 21:48:49 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:39:42 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall *wall)
 void	apply_texture(t_game *g, t_ray *ray, t_wall *wall)
 {
 	get_wall_orientation(g, ray, wall);
+	assign_door_texture(g, ray, wall);
 	compute_tx(ray, wall);
 	compute_ty(wall);
 	check_boundaries(wall);

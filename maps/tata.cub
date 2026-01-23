@@ -1,0 +1,14 @@
+NO ./textures/gold_brick64.xpm
+SO ./textures/gold_brick64.xpm
+WE ./textures/gold_brick64.xpm
+EA ./textures/gold_brick64.xpm
+
+F 62,62,62
+C 214,0,0
+
+     1111111111111
+   111E0000000D00111
+   1T000DDDDDDD000T1
+   11100000000100111
+     1D1D1D1D11111
+     11111111111111

@@ -39,7 +39,7 @@ static int	create_int_map_array(t_map *map)
 		col = 0;
 		while (col < map->x)
 		{
-			if (map->raw_map[row][col] == '1')
+			if (map->raw_map[row][col] == '1' || map->raw_map[row][col] == 'D')
 				map->map_data[row * map->x + col] = 1;
 			else
 				map->map_data[row * map->x + col] = 0;
@@ -71,6 +71,8 @@ void	parse_input(int argc, char **argv, t_game *g)
 	parse_map(&g->map, fd, line);
 	normalize_map(&g->map);
 	parse_player_data(g);
+	parse_doors(g);
+	parse_tp(g);
 	ensure_closed_map(g);
 	if (!create_int_map_array(&g->map))
 		clean_exit(MALLOC, &g->map, line, fd);

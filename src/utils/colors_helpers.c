@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loasaad <loasaad@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 19:46:01 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/13 15:35:29 by loasaad          ###   ########.fr       */
+/*   Updated: 2026/01/17 01:20:09 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

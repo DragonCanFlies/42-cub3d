@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:29:13 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 20:36:34 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:39:34 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,35 @@ void	get_wall_orientation(t_game *g, t_ray *ray, t_wall *wall)
 			wall->text = g->tex.north;
 			wall->wall_dir = N;
 		}
+	}
+}
+
+void	assign_door_texture(t_game *g, t_ray *ray, t_wall *wall)
+{
+	int		i;
+	float	hit_x;
+	float	hit_y;
+
+	i = 0;
+	if (wall->wall_dir == W || wall->wall_dir == E)
+	{
+		hit_x = ray->v_hit_x;
+		hit_y = ray->v_hit_y;
+	}
+	else if (wall->wall_dir == N || wall->wall_dir == S)
+	{
+		hit_x = ray->h_hit_x;
+		hit_y = ray->h_hit_y;
+	}
+	while (i < g->map.doors_nb)
+	{
+		if ((int)(hit_x / MAP_S) == g->map.doors[i].x
+		&& (int)(hit_y / MAP_S) == g->map.doors[i].y)
+		{
+			wall->text = g->tex.door;
+			return ;
+		}
+		i++;
 	}
 }
 

@@ -12,6 +12,7 @@ void	put_pixel(t_img *img, int x, int y, int color)
 	*dst = color;
 }
 
+// we never use this for now
 void	draw_rect(t_img *img, int x, int y, int w, int h, int color)
 {
 	int	i;
@@ -95,9 +96,8 @@ int	render(t_game *game)
 		i++;
 	}
 	update_player(game);
-	//draw_map_2d(game);      // 2D top-down map (left side)
-	ray_caster(game);     // 3D raycasted view (right side)
-	//draw_player_2d(game);   // Player indicator on 2D map
+	ray_caster(game);
+	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	return (0);
 }

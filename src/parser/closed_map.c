@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:18:07 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/15 18:42:58 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:43:40 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void	ensure_closed_map(t_game *g)
 		col = 0;
 		while (col < g->map.x)
 		{
-			if (copy[row][col] == '0')
+			if (copy[row][col] == '0'
+				|| copy[row][col] == 'D'
+				|| copy[row][col] == 'T')
 				flood_fill(copy, col, row, g);
 			col++;
 		}

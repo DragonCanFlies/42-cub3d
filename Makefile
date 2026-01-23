@@ -6,7 +6,7 @@
 #    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/01/18 15:22:33 by latabagl         ###   ########.fr        #
+#    Updated: 2026/01/21 21:35:32 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ INCLUDES	= -Iinclude -Imlx
 # MLX settings
 MLX_DIR		= mlx
 MLX_LIB		= $(MLX_DIR)/libmlx.a
-MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-# MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11
+# MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11
 MATH_FLAGS	= -lm
 
 # Directories
@@ -38,7 +38,9 @@ SRCS		= src/cub3d.c \
 			  src/player/player_movement.c \
 			  src/parser/closed_map.c \
 			  src/parser/parse_input.c \
+			  src/parser/parse_doors.c \
 			  src/parser/parse_map.c \
+			  src/parser/parse_tp.c \
 			  src/parser/parse_player_data.c \
 			  src/parser/parse_textures.c \
 			  src/parser/utils_parse_map.c \
@@ -54,7 +56,10 @@ SRCS		= src/cub3d.c \
 			  src/utils/utils_math.c \
 			  src/libft/get_next_line.c \
 			  src/libft/get_next_line_utils.c \
-			  src/libft/libft.c
+			  src/libft/libft.c \
+			  src/bonus/door.c \
+			  src/bonus/minimap.c \
+			  src/bonus/tp.c
 
 # Object files - use patsubst for correct path handling
 OBJS		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
