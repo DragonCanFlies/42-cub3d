@@ -6,12 +6,17 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:30:43 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 21:48:49 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/03/27 14:00:17 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*
+** Computes the horizontal texture coordinate for the wall slice.
+** Flips it for east and north facing walls
+** so that textures are rendered in the correct direction.
+*/
 static void	compute_tx(t_ray *ray, t_wall *wall)
 {
 	if (wall->wall_dir == W)
@@ -30,6 +35,12 @@ static void	compute_tx(t_ray *ray, t_wall *wall)
 	}
 }
 
+/*
+** Computes the vertical texture parameters for the wall slice.
+** ty_step is the texture-to-screen scaling factor.
+** If the projected wall exceeds the screen height,
+** ty_off skips the invisible upper part of the texture.
+*/
 static void	compute_ty(t_wall *wall)
 {
 	wall->ty_off = 0;
@@ -43,6 +54,11 @@ static void	compute_ty(t_wall *wall)
 	wall->line_offset = (WIN_HEIGHT >> 1) - (wall->line_h >> 1);
 }
 
+/*
+** Applies shading to vertical walls (E/W).
+** Extracts the RGB components, scales them by the shading factor
+** and reconstructs the final color value
+*/
 static void	apply_shading(t_wall *wall, int *color, float shade)
 {
 	int	red;
@@ -61,6 +77,13 @@ static void	apply_shading(t_wall *wall, int *color, float shade)
 	}
 }
 
+/*
+** Draws the vertical wall slice corresponding to a ray:
+** - computes the horizontal screen range covered by the ray
+** - retrieves the texture pixel color for each row of the slice
+** - draws horizontal lines from the top to the bottom of the slice
+**   into the image buffer
+*/
 static void	draw_wall(t_game *g, t_ray *ray, t_wall *wall)
 {
 	int		i;
@@ -89,6 +112,10 @@ static void	draw_wall(t_game *g, t_ray *ray, t_wall *wall)
 	}
 }
 
+/*
+** Determines the wall texture for a ray, computes its texture coordinates
+** and renders the corresponding vertical wall slice.
+*/
 void	apply_texture(t_game *g, t_ray *ray, t_wall *wall)
 {
 	get_wall_orientation(g, ray, wall);

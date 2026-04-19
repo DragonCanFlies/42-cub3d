@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:01:06 by latabagl          #+#    #+#             */
+/*   Updated: 2026/03/22 16:15:59 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-// add next map row to map->map
+// add next map row to map->raw_map
 static void	add_row_to_map(t_map *map, int fd, char *line, int rows)
 {
 	char	**tmp;

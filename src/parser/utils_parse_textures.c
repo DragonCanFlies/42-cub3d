@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 14:32:07 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 14:32:09 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/03/22 14:55:22 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ int	get_map_flag(char *line, int i, int j, t_map_flags *flags)
 	}
 }
 
-// Check if all required elements have been found
-// Returns 1 if complete (all 6 elements: NO, SO, EA, WE, F, C), 0 otherwise
+/*
+** Checks if all required elements have been found
+** Returns 1 if complete (all 6 elements: NO, SO, EA, WE, F, C), 0 otherwise
+*/
 int	textures_are_extracted(t_map_flags *flags)
 {
 	return (flags->has_no

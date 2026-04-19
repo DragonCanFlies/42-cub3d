@@ -1,10 +1,10 @@
 NO ./textures/eagle.xpm
 SO ./textures/eagle.xpm
+C 214,0,0
 WE ./textures/eagle.xpm
+F 62,62,62
 EA ./textures/eagle.xpm
 
-F 62,62,62
-C 214,0,0
 
 11111111111
 10000000001

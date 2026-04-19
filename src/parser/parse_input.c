@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:00:50 by latabagl          #+#    #+#             */
+/*   Updated: 2026/03/22 14:27:38 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-// return 1 if filename ends with .cub
+// Ensure the filename ends with .cub
 static void	check_filename(char	*filename)
 {
 	size_t	len;
@@ -25,6 +37,10 @@ static int	open_file(char *filename)
 	return (fd);
 }
 
+/*
+** Convert the parsed character map into a 1D integer array
+** Access to a tile becomes: row * map->x + col 
+*/
 static int	create_int_map_array(t_map *map)
 {
 	int	row;
@@ -50,11 +66,11 @@ static int	create_int_map_array(t_map *map)
 	return (1);
 }
 
-/* Inside main :
-	t_map	config;
-
-	parse_config(argc, argv, &config);
-	clean_config(&config);*/
+/*
+** Parsing entry point
+** Checks input file, parses textures and map,
+** normalizes map, initializes player data, and ensures map is valid
+*/
 void	parse_input(int argc, char **argv, t_game *g)
 {
 	int				fd;

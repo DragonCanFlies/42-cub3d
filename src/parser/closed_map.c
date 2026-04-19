@@ -6,12 +6,15 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:18:07 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/15 18:42:58 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:37:08 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*
+** Frees a NULL-terminated copy of the map.
+*/
 static void	free_copy(char **copy)
 {
 	int	i;
@@ -25,6 +28,10 @@ static void	free_copy(char **copy)
 	free(copy);
 }
 
+/*
+** Flood fill algorithm to validate that map is enclosed:
+** if '0' reaches a ' ' or map boundary, then map is considered invalid
+*/
 static void	flood_fill(char **copy, int x, int y, t_game *g)
 {
 	if (x < 0 || x >= g->map.x || y < 0 || y >= g->map.y)
@@ -46,6 +53,7 @@ static void	flood_fill(char **copy, int x, int y, t_game *g)
 	flood_fill(copy, x, y - 1, g);
 }
 
+// returns a copy of the map
 static char	**copy_map(t_game *g)
 {
 	int		row;
@@ -58,12 +66,18 @@ static char	**copy_map(t_game *g)
 	while (row < g->map.y)
 	{
 		copy[row] = ft_strdup(g->map.raw_map[row]);
+		if (!copy[row])
+			clean_exit(MALLOC, &(g->map), NULL, -1);
 		row++;
 	}
 	copy[row] = NULL;
 	return (copy);
 }
 
+/*
+** Creates a copy of the map and applies flood fill on each '0' tile
+** to ensure the map is fully enclosed by walls
+*/
 void	ensure_closed_map(t_game *g)
 {
 	int		row;

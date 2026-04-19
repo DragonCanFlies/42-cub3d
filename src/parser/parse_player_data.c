@@ -1,10 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_player_data.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:01:13 by latabagl          #+#    #+#             */
+/*   Updated: 2026/03/22 17:11:22 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Returns 1 if the character represents a player starting orientation
 static int	is_orientation(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
+
+/*
+** Initializes the player starting position (in-game coordinates),
+** sets the initial angle based on orientation (N/S/E/W),
+** computes the initial movement direction vector (dx, dy)
+** and replaces the starting position with '0' in the map
+*/
 static void	init_player(t_game *g, int row, int col)
 {
 	g->player.x = col * MAP_S + (MAP_S / 2);
@@ -22,6 +41,9 @@ static void	init_player(t_game *g, int row, int col)
 	g->player.dy = -sin(deg_to_rad(g->player.angle));
 }
 
+/*
+** Finds the player starting tile and initializes player data
+*/
 void	parse_player_data(t_game *g)
 {
 	int	row;

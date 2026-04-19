@@ -6,12 +6,17 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:25:03 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/18 15:21:17 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:42:53 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*
+** Initializes the game: starts the graphics engine, creates the game window,
+** creates the render image and retrieves its pixel buffer,
+** and initializes input keys and textures
+*/
 void	init_game(t_game *g)
 {
 	g->mlx = mlx_init();
@@ -20,7 +25,7 @@ void	init_game(t_game *g)
 		print_error("MLX init failed\n");
 		clean_exit_game(g);
 	}
-	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT, "Raycaster MLX");
+	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!g->win)
 	{
 		print_error("Window creation failed\n");

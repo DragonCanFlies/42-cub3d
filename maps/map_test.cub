@@ -1,0 +1,21 @@
+NO ./textures/eagle.xpm
+SO ./textures/eagle.xpm
+WE ./textures/eagle.xpm
+EA ./textures/eagle.xpm
+
+C 214,0,0
+F 62,62,62
+
+    111
+    1T1
+11111111111
+1E0000000.1
+11111D11111111
+1.000000F01GG1
+10000000000GG1
+10000000001111
+1.00GG00001
+111111111D1
+    1T1 101111
+    111 10...1
+        111111

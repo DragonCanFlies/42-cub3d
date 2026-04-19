@@ -6,7 +6,7 @@
 /*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 21:18:17 by latabagl          #+#    #+#             */
-/*   Updated: 2026/01/17 19:38:39 by latabagl         ###   ########.fr       */
+/*   Updated: 2026/03/21 15:29:00 by latabagl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	clean_exit_game(t_game *g)
 		mlx_destroy_window(g->mlx, g->win);
 	if (g->mlx)
 	{
-		//mlx_destroy_display(g->mlx); //only for linux
+		mlx_destroy_display(g->mlx);
 		free(g->mlx);
 	}
 	clean_map(&g->map);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_textures.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:01:25 by latabagl          #+#    #+#             */
+/*   Updated: 2026/03/22 14:56:39 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // Store texture path or RGB color based on identifier type
@@ -73,6 +85,9 @@ static void	parse_line(char *line, t_map *map, t_map_flags *flags, int fd)
 	extract_value(line, map, i, fd);
 }
 
+/*
+** Extracts the 4 wall texture paths and the colors for floor and ceiling
+*/
 char	*parse_textures(t_map *map, t_map_flags *map_flags, int fd)
 {
 	char	*line;

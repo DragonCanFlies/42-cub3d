@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   normalize_map.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/22 18:00:41 by latabagl          #+#    #+#             */
+/*   Updated: 2026/03/22 16:49:03 by latabagl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
+/*
+** Stores map dimensions inside map->x (number of columns) 
+** and map->y (number of rows),
+** and removes trailing '\n' at end of each row
+*/
 static void	get_map_width_height(t_map *map, int *col)
 {
 	int	i;
@@ -23,6 +40,7 @@ static void	get_map_width_height(t_map *map, int *col)
 	map->y = i;
 }
 
+// Returns a new row with padding ' ' at the end
 static char	*normalize_line(t_map *map, int col,
 	int len, char *old_map_line)
 {
@@ -47,6 +65,10 @@ static char	*normalize_line(t_map *map, int col,
 	return (new_map_line);
 }
 
+/*
+** Gets map dimensions (number of rows and columns)
+** and ensures all rows have the same length by  padding with spaces
+*/
 void	normalize_map(t_map *map)
 {
 	int		i;
