@@ -6,7 +6,7 @@
 #    By: latabagl <latabagl@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 00:00:00 by loasaad           #+#    #+#              #
-#    Updated: 2026/04/06 13:49:51 by latabagl         ###   ########.fr        #
+#    Updated: 2026/04/19 17:12:07 by latabagl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ INCLUDES		= -Iinclude -Imlx
 INCLUDES_BONUS	= -Ibonus/include -Imlx
 MLX_DIR			= mlx
 MLX_LIB			= $(MLX_DIR)/libmlx.a
-# MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-MLX_FLAGS		= -L$(MLX_DIR) -lmlx -lXext -lX11
+MLX_FLAGS	= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+#MLX_FLAGS		= -L$(MLX_DIR) -lmlx -lXext -lX11
 MATH_FLAGS		= -lm
 SRC_DIR			= src
 OBJ_DIR			= obj
